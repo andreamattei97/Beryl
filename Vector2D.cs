@@ -77,7 +77,7 @@ namespace Beryl.Structures
         }
 
         //converts the vector into a 3d vector (Vector3d) as (x,y,0)
-        public static implicit operator Vector3D(Vector2d vector)
+        public static implicit operator Vector3D(Vector2D vector)
         {
             return new Vector3D(vector.x, vector.y, 0);
         }
