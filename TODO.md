@@ -1,4 +1,4 @@
-#TO DO List
+# TO DO List
 
--Better exception handling
--Mixed tollerance
+* Better exception handling
+* Mixed tollerance
