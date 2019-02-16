@@ -12,7 +12,7 @@ namespace Beryl.Utilities
             get{ return _tollerance; }
             set
             {
-                if(value<0)
+                if(value == Double.NaN || value < 0 || Double.IsInfinity(value))
                     throw new ArgumentOutOfRangeException("Tollerance", "The tollerance must be non-negative");
                 _tollerance = value;
             }
