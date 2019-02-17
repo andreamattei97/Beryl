@@ -12,8 +12,8 @@ namespace Beryl.Utilities
             get { return _tollerance; }
             set
             {
-                if (value == Double.NaN || value < 0 || Double.IsInfinity(value))
-                    throw new ArgumentOutOfRangeException("Tollerance", "The tollerance must be non-negative");
+                if (value < 0 || !value.IsFinite())
+                    throw new ArgumentOutOfRangeException("Tollerance", "The tollerance must be finite and non-negative");
                 _tollerance = value;
             }
         }
