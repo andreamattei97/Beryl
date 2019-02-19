@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Source",
+    "\\Source\\RootFinding",
+    "\\Source\\Utilities"
   ],
-  "SelectedNode": "\\Vector2D.cs",
+  "SelectedNode": "\\LICENSE",
   "PreviewInSolutionExplorer": false
 }
