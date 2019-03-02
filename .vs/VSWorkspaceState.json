@@ -3,8 +3,9 @@
     "",
     "\\Source",
     "\\Source\\RootFinding",
+    "\\Source\\Structures",
     "\\Source\\Utilities"
   ],
-  "SelectedNode": "\\LICENSE",
+  "SelectedNode": "\\Source\\RootFinding\\BisectionMethod.cs",
   "PreviewInSolutionExplorer": false
 }

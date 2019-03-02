@@ -5,8 +5,14 @@ namespace Beryl
     //exception throwed when a calculation fails
     class CalculationException : Exception
     {
-        public CalculationException(string message,Exception innerException=null) : base(message,innerException)
+        public Func<Double, Double> PassedFunction
         {
+            get;
+            private set;
+        }
+        public CalculationException(string message, Func<double, double> passedFunction = null, Exception innerException = null) : base(message, innerException)
+        {
+            PassedFunction = passedFunction;
         }
     }
 }
