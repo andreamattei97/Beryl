@@ -15,7 +15,7 @@ namespace Beryl.RootFinding
             }
             private set
             {
-                if (_tolerance > 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException("Tolerance", "The tolerance must be non-negative");
                 _tolerance = value;
             }
