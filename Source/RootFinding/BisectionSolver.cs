@@ -35,7 +35,7 @@ namespace Beryl.RootFinding
             _wrappedFunction = FunctionWrapper.MakeWrapper(function);
         }
 
-        //set an absolute tollerance of 10^-6 as stopping criteria centered in 0
+        //set an absolute tollerance of 10^-6 as stopping criteria
         public BisectionSolver(Func<double, double> function):this (function, new AbsoluteCriteria(0.000001))
         { }
 
