@@ -2,11 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\Source",
-    "\\Source\\Numerical derivation",
+    "\\Source\\NumericalDerivation",
     "\\Source\\RootFinding",
     "\\Source\\Structures",
     "\\Source\\Utilities"
   ],
-  "SelectedNode": "\\Source\\CalculationException.cs",
+  "SelectedNode": "\\Source",
   "PreviewInSolutionExplorer": false
 }
