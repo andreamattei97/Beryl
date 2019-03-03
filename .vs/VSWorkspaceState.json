@@ -2,10 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\Source",
+    "\\Source\\Numerical derivation",
     "\\Source\\RootFinding",
     "\\Source\\Structures",
     "\\Source\\Utilities"
   ],
-  "SelectedNode": "\\Source\\RootFinding\\BisectionMethod.cs",
+  "SelectedNode": "\\Source\\CalculationException.cs",
   "PreviewInSolutionExplorer": false
 }
