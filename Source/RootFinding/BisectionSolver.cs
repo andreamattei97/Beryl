@@ -26,7 +26,7 @@ namespace Beryl.RootFinding
         }
 
         public Func<double,double> Function { get; }
-        //the function wrapped for non-finite return values detection
+        //the function wrapped for detecting non-finite returned values
         private readonly Func<double, double> _wrappedFunction;
 
         public BisectionSolver(Func<double, double> function, IStoppingCriteria stoppingCriteria)
