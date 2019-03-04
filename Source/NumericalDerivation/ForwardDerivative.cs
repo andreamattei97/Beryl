@@ -20,37 +20,12 @@ namespace Beryl.NumericalDerivation
         }
 
         //derivative functor generator
-        public static Func<double, double> MakeDerivative(Func<double, double> function, int order, double step)
+        public static Func<double, double> MakeDerivative(Func<double, double> function, double step, int order=1)
         {
-            ForwardDerivative derivative = new ForwardDerivative(function, order, step);
+            ForwardDerivative derivative = new ForwardDerivative(function, step, order);
             return derivative.CalculateDerivative;
         }
 
-        //the order of the derivative
-        private int _order;
-        public int Order
-        {
-            get { return _order; }
-            private set
-            {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException("Order", "The order of the derivative must be non-negative");
-                _order = value;
-            }
-        }
-
-        //the step used for calculating the derivative
-        private double _step;
-        public double Step
-        {
-            get { return _step; }
-            private set
-            {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException("Order", "The order of the derivative must be positive");
-                _step = value;
-            }
-        }
         //precalculated Step^n
         private readonly double nStep;
 
@@ -60,10 +35,15 @@ namespace Beryl.NumericalDerivation
         //the terms of the finite difference
         private readonly Term[] terms;
 
-        public ForwardDerivative(Func<double, double> function, int order, double step)
+        private ForwardDerivative(Func<double, double> function, double step, int order)
         {
-            Order = order;
-            Step = step;
+
+            if (order < 0)
+                throw new ArgumentOutOfRangeException("order", "The order of the derivative must be non-negative");
+
+            if (step <= 0)
+                throw new ArgumentOutOfRangeException("step", "The step of approximation must be positive");
+            
             nStep = Math.Pow(step, order);
             wrappedFunction = FunctionWrapper.MakeWrapper(function);
 
@@ -71,7 +51,7 @@ namespace Beryl.NumericalDerivation
             for (int i = 0; i <= order; i++)
             {
                 double coefficient = (i % 2 == 0) ? MathExtra.BinomialCoefficient(order, i) : -MathExtra.BinomialCoefficient(order, i);
-                double translation = (order-i) * Step;
+                double translation = (order-i) * step;
                 terms[i] = new Term(coefficient, translation);
             }
         }
