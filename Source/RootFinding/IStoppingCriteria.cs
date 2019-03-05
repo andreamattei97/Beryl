@@ -2,7 +2,7 @@
 
 namespace Beryl.RootFinding
 {
-    interface IStoppingCriteria
+    public interface IStoppingCriteria
     {
         bool FullfilCriteria(Vector2D point);
 

@@ -2,7 +2,6 @@
 
 namespace Beryl.NumericalDerivation
 {
-    using Function = Func<double, double>;
 
     public static class DerivativeExtension
     {

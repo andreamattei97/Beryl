@@ -5,9 +5,9 @@ namespace Beryl.Utilities
     class FunctionWrapper
     {
         //make a wrapper to function that detects non-finite results (and then throw an exception)
-        public static Func<double,double> MakeWrapper(Func<double,double> function)
+        public static Function MakeWrapper(Function function)
         {
-            Func<double, double> wrappedFunction = (double input) =>
+            Function wrappedFunction = (double input) =>
               {
                   double result = function(input);
                   if(!result.IsFinite())

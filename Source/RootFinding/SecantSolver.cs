@@ -4,71 +4,76 @@ using Beryl.Utilities;
 
 namespace Beryl.RootFinding
 {
+
+    public delegate Vector2D SecantSolverFunction(double x0, double x1);
+
     class SecantSolver
     {
-        private int _maxIterations = 50;
-        public int MaxIterations
+
+        public static SecantSolverFunction MakeSolver(Function function, IStoppingCriteria stoppingCriteria, int maxIterations = 50)
         {
-            get { return _maxIterations; }
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException("MaxIterations", "The number of iteractions must be non-negative");
-                _maxIterations = value;
-            }
+            return new SecantSolver(function, stoppingCriteria, maxIterations).Solve;
         }
+
+        public static SecantSolverFunction MakeSolver(Function function, int maxIterations=50)
+        {
+            return new SecantSolver(function, new AbsoluteCriteria(0.000001), maxIterations).Solve;
+        }
+
+        private readonly int maxIterations;
 
         //the stopping criteria
-        public IStoppingCriteria StoppingCriteria
-        {
-            get;
-        }
+        private readonly IStoppingCriteria stoppingCriteria;
 
-        public Func<double, double> Function { get; }
+        private readonly Function function;
         //the function wrapped for detecting non-finite returned values
-        private readonly Func<double, double> _wrappedFunction;
+        private readonly Function wrappedFunction;
 
-        public SecantSolver(Func<double, double> function, IStoppingCriteria stoppingCriteria)
+        private SecantSolver(Function function, IStoppingCriteria stoppingCriteria, int maxIterations)
         {
-            Function = function;
-            _wrappedFunction = FunctionWrapper.MakeWrapper(function);
 
-            StoppingCriteria = stoppingCriteria;
+            if (maxIterations < 0)
+                throw new ArgumentOutOfRangeException("MaxIterations", "The number of iteractions must be non-negative");
+            this.maxIterations = maxIterations;
+
+            this.function = function;
+            wrappedFunction = FunctionWrapper.MakeWrapper(function);
+
+            this.stoppingCriteria = stoppingCriteria;
         }
 
-        //set an absolute tollerance of 10^-6 as stopping criteria
-        public SecantSolver(Func<double, double> function) : this(function, new AbsoluteCriteria(0.000001))
-        { }
-
-        public Result Solve(double x0, double x1)
+        public Vector2D Solve(double x0, double x1)
         {
 
             double xn1 = x1,xn0=x0,x=0;
-            double fn1 = _wrappedFunction(xn1),fn0=_wrappedFunction(xn0);
+            double fn1 = wrappedFunction(xn1),fn0=wrappedFunction(xn0);
             bool success = false;
 
-            StoppingCriteria.SetCriteria(new Vector2D(xn1, _wrappedFunction(fn1)));
+            stoppingCriteria.SetCriteria(new Vector2D(xn1, wrappedFunction(fn1)));
 
-            for (int k = 0; k < MaxIterations; k++)
+            for (int k = 0; k < maxIterations; k++)
             {
                 double d = (fn1 - fn0)/ (xn1 - xn0);
                 x = xn1 - fn1/ d ;
                 if (!x.IsFinite())
-                    throw new CalculationException("Found a non finite point in the succession to the root", Function);
+                    throw new CalculationException("Found a non finite point in the succession to the root", function);
 
                 fn0 = fn1;
                 xn0 = xn1;
-                fn1 = _wrappedFunction(x);
+                fn1 = wrappedFunction(x);
                 xn1 = x;
 
-                if (StoppingCriteria.FullfilCriteria(new Vector2D(xn1, fn1)))
+                if (stoppingCriteria.FullfilCriteria(new Vector2D(xn1, fn1)))
                 {
                     success = true;
                     break;
                 }
             }
 
-            return new Result(new Vector2D(xn1, fn1), success);
+            if (!success)
+                throw new CalculationException("No convergence to the solution (exceded the maximum number of iterations)", function);
+
+            return new Vector2D(xn1, fn1);
         }
     }
 }

@@ -1,62 +1,66 @@
 ﻿using System;
-
 using Beryl.Structures;
 using Beryl.Utilities;
 
 namespace Beryl.RootFinding
 {
+
+    public delegate Vector2D BisectionSolverFunction(double inf, double sup);
+
     class BisectionSolver
     {
-        private int _maxIterations=50;
-        public int MaxIterations
+
+        public static BisectionSolverFunction MakeSolver(Function function, IStoppingCriteria stoppingCriteria, int maxIterations = 50)
         {
-            get { return _maxIterations; }
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException("MaxIterations", "The number of iteractions must be non-negative");
-                _maxIterations = value;
-            }
+            return new BisectionSolver(function, stoppingCriteria, maxIterations).Solve;
         }
-        
+
+        public static BisectionSolverFunction MakeSolver(Function function,int maxIterations=50)
+        {
+            return new BisectionSolver(function, new AbsoluteCriteria(0.000001), maxIterations).Solve;
+        }
+
+        private readonly int maxIterations;
+
         //the stopping criteria
-        public IStoppingCriteria StoppingCriteria
+        private readonly IStoppingCriteria stoppingCriteria;
+
+        private readonly Function function;
+        //the function wrapped for non-finite return values detection
+        private readonly Function wrappedFunction;
+
+        private BisectionSolver(Function function, IStoppingCriteria stoppingCriteria,int maxIterations)
         {
-            get;
+            if (maxIterations < 0)
+                throw new ArgumentOutOfRangeException("MaxIterations", "The number of iteractions must be non-negative");
+
+            this.maxIterations = maxIterations;
+
+            this.stoppingCriteria = stoppingCriteria;
+
+            this.function = function;
+            wrappedFunction = FunctionWrapper.MakeWrapper(function);
+
         }
-
-        public Func<double,double> Function { get; }
-        //the function wrapped for detecting non-finite returned values
-        private readonly Func<double, double> _wrappedFunction;
-
-        public BisectionSolver(Func<double, double> function, IStoppingCriteria stoppingCriteria)
-        {
-            StoppingCriteria = stoppingCriteria;
-            _wrappedFunction = FunctionWrapper.MakeWrapper(function);
-        }
-
-        //set an absolute tollerance of 10^-6 as stopping criteria
-        public BisectionSolver(Func<double, double> function):this (function, new AbsoluteCriteria(0.000001))
-        { }
 
         //returns the point which axproximates the zero inside the interval
-        public Result FindZero(double inf,double sup)
+        public Vector2D Solve(double inf,double sup)
         {
 
             double a=inf, b=sup, x=0;
-            double fa=_wrappedFunction(a), fb=_wrappedFunction(b),fx=0;
+            double fa=wrappedFunction(a), fb=wrappedFunction(b),fx=0;
             
             bool success = false;
 
             //check if the interval is valid
             if(fa*fb>0)
             {
-                throw new CalculationException("Not valid interval",Function);
+                throw new CalculationException("Not valid interval",function);
             }
 
             //first iteration is used for providing a reference estimation
             x = (a + b) / 2;
-            fx = _wrappedFunction(x);
+            fx = wrappedFunction(x);
             if (fx * fa < 0)
             {
                 b = x;
@@ -67,14 +71,14 @@ namespace Beryl.RootFinding
                 a = x;
                 fa = fx;
             }
-            StoppingCriteria.SetCriteria(new Vector2D(x,fx));
+            stoppingCriteria.SetCriteria(new Vector2D(x,fx));
 
-            for(int k=0; k<MaxIterations;k++)
+            for(int k=0; k<maxIterations;k++)
             {
                 x = (a + b) / 2;
-                fx = _wrappedFunction(x);
+                fx = wrappedFunction(x);
 
-                if(StoppingCriteria.FullfilCriteria(new Vector2D(x,fx)))
+                if(stoppingCriteria.FullfilCriteria(new Vector2D(x,fx)))
                 {
                     success = true;
                     break;
@@ -92,7 +96,10 @@ namespace Beryl.RootFinding
                 }
             }
 
-            return new Result(new Vector2D(x, fx), success);
+            if (!success)
+                throw new CalculationException("No convergence to the solution (exceded the maximum number of iterations)", function);
+
+            return new Vector2D(x, fx);
         }
     }
 }

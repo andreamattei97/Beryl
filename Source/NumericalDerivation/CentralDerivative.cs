@@ -1,5 +1,5 @@
-﻿using Beryl.Utilities;
-using System;
+﻿using System;
+using Beryl.Utilities;
 
 namespace Beryl.NumericalDerivation
 {
@@ -22,7 +22,7 @@ namespace Beryl.NumericalDerivation
         }
 
         //derivative functor generator
-        public static Func<double,double> MakeDerivative(Func<double, double> function, double step, int order=1)
+        public static Function MakeDerivative(Function function, double step, int order=1)
         {
             CentralDerivative derivative = new CentralDerivative(function, step, order);
             return derivative.CalculateDerivative;
@@ -32,12 +32,12 @@ namespace Beryl.NumericalDerivation
         private readonly double nStep;
 
         //the derived function wrapped for detecting non-finite returned values
-        private readonly Func<double, double> wrappedFunction;
+        private readonly Function wrappedFunction;
 
         //the terms of the finite difference
         private readonly Term[] terms;
 
-        private CentralDerivative(Func<double,double> function, double step, int order)
+        private CentralDerivative(Function function, double step, int order)
         {
 
             if (order < 0)

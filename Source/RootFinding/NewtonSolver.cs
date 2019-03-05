@@ -5,56 +5,60 @@ using Beryl.Utilities;
 
 namespace Beryl.RootFinding
 {
+
+    public delegate Vector2D NewtonSolverFunction (double x0,int multiplicity=1);
+
     class NewtonSolver
     {
-        private int _maxIterations = 50;
-        public int MaxIterations
+
+        public static NewtonSolverFunction  MakeSolver(Function function, Function derivative, IStoppingCriteria stoppingCriteria, int maxIterations = 50)
         {
-            get { return _maxIterations; }
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException("MaxIterations", "The number of iteractions must be non-negative");
-                _maxIterations = value;
-            }
+            return new NewtonSolver(function, derivative, stoppingCriteria, maxIterations).Solve;
         }
+
+        public static NewtonSolverFunction MakeSolver(Function function,IStoppingCriteria stoppingCriteria,int maxIterations=50)
+        {
+            return new NewtonSolver(function, CentralDerivative.MakeDerivative(function, 0.0001), stoppingCriteria, maxIterations).Solve;
+        }
+
+        public static NewtonSolverFunction MakeSolver(Function function,Function derivative,int maxIterations=50)
+        {
+            return new NewtonSolver(function, derivative, new AbsoluteCriteria(0.000001), maxIterations).Solve;
+        }
+
+        public static NewtonSolverFunction MakeSolver(Function function,int maxIterations=50)
+        {
+            return new NewtonSolver(function, CentralDerivative.MakeDerivative(function, 0.0001), new AbsoluteCriteria(0.000001), maxIterations).Solve;
+        }
+
+        private readonly int maxIterations;
 
         //the stopping criteria
-        public IStoppingCriteria StoppingCriteria
-        {
-            get;
-        }
+        private readonly IStoppingCriteria stoppingCriteria;
 
-        public Func<double, double> Function { get; }
+        private readonly Function function;
         //the function wrapped for detecting non-finite returned values
-        private readonly Func<double, double> _wrappedFunction;
+        private readonly Function wrappedFunction;
 
         //the function derivative
-        public Func<double,double> Derivative { get; }
+        private readonly Function derivative;
         //the derivative wrapped for detecting non-finite returned values
-        private readonly Func<double, double> _wrappedDerivative;
+        private readonly Function wrappedDerivative;
 
-        public NewtonSolver(Func<double,double> function,Func<double,double> derivative,IStoppingCriteria stoppingCriteria)
+        private NewtonSolver(Function function,Function derivative,IStoppingCriteria stoppingCriteria,int maxIterations=50)
         {
-            Function = function;
-            _wrappedFunction = FunctionWrapper.MakeWrapper(function);
+            this.function = function;
+            wrappedFunction = FunctionWrapper.MakeWrapper(function);
 
-            Derivative = derivative;
-            _wrappedDerivative = FunctionWrapper.MakeWrapper(derivative);
+            this.derivative = derivative;
+            wrappedDerivative = FunctionWrapper.MakeWrapper(derivative);
 
-            StoppingCriteria = stoppingCriteria;
+            this.stoppingCriteria = stoppingCriteria;
+
+            this.maxIterations = maxIterations;
         }
-        
-        public NewtonSolver(Func<double,double> function,IStoppingCriteria stoppingCriteria):this(function,CentralDerivative.MakeDerivative(function,1,0.0001),stoppingCriteria)
-        { }
 
-        public NewtonSolver(Func<double,double> function):this(function,new AbsoluteCriteria(0.000001))
-        { }
-
-        public NewtonSolver(Func<double, double> function, Func<double, double> derivative) : this(function, derivative, new AbsoluteCriteria(0.000001))
-        { }
-
-        public Result Solve(double initialEstimation,int multiplicity=1)
+        public Vector2D Solve(double initialEstimation,int multiplicity=1)
         {
             if (multiplicity < 1)
                 throw new ArgumentOutOfRangeException("multiplicity", "the multiplicity of the root must be equal or greater than 1");
@@ -64,17 +68,17 @@ namespace Beryl.RootFinding
             double dfn = 0;
             bool success = false;
 
-            StoppingCriteria.SetCriteria(new Vector2D(xn, _wrappedFunction(xn)));
+            stoppingCriteria.SetCriteria(new Vector2D(xn, wrappedFunction(xn)));
 
-            for(int k=0;k<MaxIterations;k++)
+            for(int k=0;k<maxIterations;k++)
             {
-                fn = _wrappedFunction(xn);
-                dfn = _wrappedDerivative(xn);
+                fn = wrappedFunction(xn);
+                dfn = wrappedDerivative(xn);
 
                 if (dfn == 0 && fn != 0)
-                    throw new CalculationException("Cannot continue calculation, the function derivative is 0 in " + xn, Function);
+                    throw new CalculationException("Cannot continue calculation, the function derivative is 0 in " + xn, function);
 
-                if(StoppingCriteria.FullfilCriteria(new Vector2D(xn,fn)))
+                if(stoppingCriteria.FullfilCriteria(new Vector2D(xn,fn)))
                 {
                     success = true;
                     break;
@@ -83,7 +87,10 @@ namespace Beryl.RootFinding
                 xn = xn -multiplicity * fn / dfn;
             }
 
-            return new Result(new Vector2D(xn,fn),success);
+            if (!success)
+                throw new CalculationException("No convergence to the solution (exceded the maximum number of iterations)", function);
+
+            return new Vector2D(xn,fn);
         }
         
 
