@@ -3,10 +3,11 @@
     "",
     "\\Source",
     "\\Source\\NumericalDerivation",
+    "\\Source\\NumericalIntegration",
     "\\Source\\RootFinding",
     "\\Source\\Structures",
     "\\Source\\Utilities"
   ],
-  "SelectedNode": "\\Source\\RootFinding\\NewtonSolver.cs",
+  "SelectedNode": "\\Source",
   "PreviewInSolutionExplorer": false
 }
