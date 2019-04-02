@@ -4,7 +4,7 @@ A simple C# library for numerical computation, The library is currently on worki
 * Numerical integration module
 * Root-finding methods module
 
-Unfortunately there are currently no documentation, it will be provided as soon as possible.
+Unfortunately there is currently no documentation, it will be provided as soon as possible.
 
 Currently working on:
 * ODE solvers (Euler method, Runge-kutta methods, Adams–Bashforth methods)
