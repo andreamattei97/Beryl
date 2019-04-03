@@ -1,3 +1,3 @@
-#ignore visual studio and visual studio code folders
+#ignores visual studio and visual studio code folders
 .vs/ 
 .vscode/
