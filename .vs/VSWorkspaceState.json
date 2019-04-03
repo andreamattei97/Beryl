@@ -4,10 +4,11 @@
     "\\Source",
     "\\Source\\NumericalDerivation",
     "\\Source\\NumericalIntegration",
+    "\\Source\\ODE",
     "\\Source\\RootFinding",
     "\\Source\\Structures",
     "\\Source\\Utilities"
   ],
-  "SelectedNode": "\\README.md",
+  "SelectedNode": "\\Source\\ODE",
   "PreviewInSolutionExplorer": false
 }
