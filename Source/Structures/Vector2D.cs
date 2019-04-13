@@ -139,5 +139,8 @@ namespace Beryl.Structures
         {
             return "x:" + x.ToString() + " y:" + y.ToString();
         }
+
+        //returns if the vector contains only finite components
+        public bool IsFinite() => !double.IsInfinity(x) && !double.IsNaN(x) && !double.IsInfinity(y) && !double.IsNaN(y);
     }
 }

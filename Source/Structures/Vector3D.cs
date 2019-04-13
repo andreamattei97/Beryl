@@ -124,7 +124,7 @@ namespace Beryl.Structures
         {
             _x = x;
             _y = y;
-            _z = y;
+            _z = z;
         }
 
         //returns a string with the following format: x:[xvalue] y:[yvalue] z:[zvalue]
@@ -132,5 +132,8 @@ namespace Beryl.Structures
         {
             return "x:" + x.ToString() + " y:" + y.ToString();
         }
+
+        //returns if the vector contains only finite components
+        public bool IsFinite() => !double.IsInfinity(x) && !double.IsNaN(x) && !double.IsInfinity(y) && !double.IsNaN(y) && !double.IsInfinity(z) && !double.IsNaN(z);
     }
 }
