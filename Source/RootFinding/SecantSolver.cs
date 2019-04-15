@@ -1,6 +1,6 @@
 ﻿using System;
-using Beryl.Structures;
-using Beryl.Utilities;
+using Beryl.Utilities.Math;
+using Beryl.Utilities.Structures;
 
 namespace Beryl.RootFinding
 {
@@ -26,8 +26,6 @@ namespace Beryl.RootFinding
         private readonly IStoppingCriteria stoppingCriteria;
 
         private readonly Function function;
-        //the function wrapped for detecting non-finite returned values
-        private readonly Function wrappedFunction;
 
         private SecantSolver(Function function, IStoppingCriteria stoppingCriteria, int maxIterations)
         {
@@ -35,10 +33,7 @@ namespace Beryl.RootFinding
             if (maxIterations < 0)
                 throw new ArgumentOutOfRangeException("MaxIterations", "The number of iteractions must be non-negative");
             this.maxIterations = maxIterations;
-
             this.function = function;
-            wrappedFunction = FunctionWrapper.MakeWrapper(function);
-
             this.stoppingCriteria = stoppingCriteria;
         }
 
@@ -46,10 +41,10 @@ namespace Beryl.RootFinding
         {
 
             double xn1 = x1,xn0=x0,x=0;
-            double fn1 = wrappedFunction(xn1),fn0=wrappedFunction(xn0);
+            double fn1 = function(xn1),fn0=function(xn0);
             bool success = false;
 
-            stoppingCriteria.SetCriteria(new Vector2D(xn1, wrappedFunction(fn1)));
+            stoppingCriteria.SetCriteria(new Vector2D(xn1, function(fn1)));
 
             for (int k = 0; k < maxIterations; k++)
             {
@@ -60,7 +55,7 @@ namespace Beryl.RootFinding
 
                 fn0 = fn1;
                 xn0 = xn1;
-                fn1 = wrappedFunction(x);
+                fn1 = function(x);
                 xn1 = x;
 
                 if (stoppingCriteria.FullfilCriteria(new Vector2D(xn1, fn1)))

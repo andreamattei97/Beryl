@@ -1,10 +1,10 @@
 ﻿using System;
-using Beryl.Structures;
+using Beryl.Utilities.Structures;
 
-namespace Beryl.ODE.NodeSelection
+namespace Beryl.Utilities.NodeSelection
 {
     //a node associated to a left interval
-    class LeftNode:Node
+    public class LeftNode:Node
     {
         public readonly double interval;//the dimension of the interval
 

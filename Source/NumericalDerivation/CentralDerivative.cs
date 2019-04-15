@@ -1,5 +1,5 @@
 ﻿using System;
-using Beryl.Utilities;
+using Beryl.Utilities.Math;
 
 namespace Beryl.NumericalDerivation
 {
@@ -31,8 +31,7 @@ namespace Beryl.NumericalDerivation
         //precalculated Step^n
         private readonly double nStep;
 
-        //the derived function wrapped for detecting non-finite returned values
-        private readonly Function wrappedFunction;
+        private readonly Function function;
 
         //the terms of the finite difference
         private readonly Term[] terms;
@@ -47,7 +46,7 @@ namespace Beryl.NumericalDerivation
                 throw new ArgumentOutOfRangeException("step", "The step of approximation must be positive");
 
             nStep = Math.Pow(step, order);
-            wrappedFunction = FunctionWrapper.MakeWrapper(function);
+            this.function = function;
 
             terms = new Term[order+1];
             for(int i=0;i<=order;i++)
@@ -65,7 +64,7 @@ namespace Beryl.NumericalDerivation
             //calculates the finite difference
             foreach(Term term in terms)
             {
-                result += term.coefficient * wrappedFunction(x + term.translation);
+                result += term.coefficient * function(x + term.translation);
             }
             //calculates the derivative
             result /= nStep;

@@ -1,7 +1,6 @@
 ﻿using System;
 using Beryl.NumericalDerivation;
-using Beryl.Structures;
-using Beryl.Utilities;
+using Beryl.Utilities.Structures;
 
 namespace Beryl.RootFinding
 {
@@ -37,21 +36,15 @@ namespace Beryl.RootFinding
         private readonly IStoppingCriteria stoppingCriteria;
 
         private readonly Function function;
-        //the function wrapped for detecting non-finite returned values
-        private readonly Function wrappedFunction;
 
         //the function derivative
         private readonly Function derivative;
-        //the derivative wrapped for detecting non-finite returned values
-        private readonly Function wrappedDerivative;
 
         private NewtonSolver(Function function,Function derivative,IStoppingCriteria stoppingCriteria,int maxIterations=50)
         {
             this.function = function;
-            wrappedFunction = FunctionWrapper.MakeWrapper(function);
 
             this.derivative = derivative;
-            wrappedDerivative = FunctionWrapper.MakeWrapper(derivative);
 
             this.stoppingCriteria = stoppingCriteria;
 
@@ -68,12 +61,12 @@ namespace Beryl.RootFinding
             double dfn = 0;
             bool success = false;
 
-            stoppingCriteria.SetCriteria(new Vector2D(xn, wrappedFunction(xn)));
+            stoppingCriteria.SetCriteria(new Vector2D(xn, function(xn)));
 
             for(int k=0;k<maxIterations;k++)
             {
-                fn = wrappedFunction(xn);
-                dfn = wrappedDerivative(xn);
+                fn = function(xn);
+                dfn = derivative(xn);
 
                 if (dfn == 0 && fn != 0)
                     throw new CalculationException("Cannot continue calculation, the function derivative is 0 in " + xn, function);

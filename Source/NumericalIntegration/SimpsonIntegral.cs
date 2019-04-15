@@ -1,5 +1,4 @@
 ﻿using System;
-using Beryl.Utilities;
 
 namespace Beryl.NumericalIntegration
 {
@@ -14,7 +13,6 @@ namespace Beryl.NumericalIntegration
         private readonly double maxStep;
 
         private readonly Function function;
-        private readonly Function wrappedFunction;
 
         private SimpsonIntegral(Function function, double maxStep)
         {
@@ -23,9 +21,7 @@ namespace Beryl.NumericalIntegration
                 throw new ArgumentOutOfRangeException("maxStep", "the maximum step of integration must be positive");
 
             this.maxStep = maxStep;
-
             this.function = function;
-            wrappedFunction = FunctionWrapper.MakeWrapper(function);
 
         }
 
@@ -37,23 +33,21 @@ namespace Beryl.NumericalIntegration
             int intervals = (int)Math.Ceiling((b - a) / maxStep);
             double correctedStep = (b - a) / intervals;
 
-            double result = correctedStep / 6 * (wrappedFunction(a) + wrappedFunction(b));
+            double result = correctedStep / 6 * (function(a) + function(b));
 
             for (int i = 1; i < intervals; i++)
             {
                 double x = a + correctedStep * i;
-                result += wrappedFunction(x) * correctedStep/3;
+                result += function(x) * correctedStep/3;
             }
 
             for (int i = 0; i < intervals; i++)
             {
                 double x = a + correctedStep * (i + 0.5);
-                result += wrappedFunction(x) * correctedStep * 2 / 3;
+                result += function(x) * correctedStep * 2 / 3;
             }
 
             return result;
         }
-
-
     }
 }

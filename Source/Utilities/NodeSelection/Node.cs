@@ -1,9 +1,9 @@
-﻿using Beryl.Structures;
+﻿using Beryl.Utilities.Structures;
 
-namespace Beryl.ODE.NodeSelection
+namespace Beryl.Utilities.NodeSelection
 {
     //the base class for nodes
-    abstract class Node
+    public abstract class Node
     {
         //the coordinate of the node
         public readonly Vector2D point;

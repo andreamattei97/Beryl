@@ -1,9 +1,9 @@
-﻿using Beryl.Structures;
+﻿using Beryl.Utilities.Structures;
 
 namespace Beryl.ODE
 {
     //used for having uniform discretization (constant step)
-    class UniformDiscretizer : IDiscretizer
+    public class UniformDiscretizer : IDiscretizer
     {
         //the constant modulus of the step
         public double StepModulus { get; }

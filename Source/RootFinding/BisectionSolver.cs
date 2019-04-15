@@ -1,6 +1,5 @@
 ﻿using System;
-using Beryl.Structures;
-using Beryl.Utilities;
+using Beryl.Utilities.Structures;
 
 namespace Beryl.RootFinding
 {
@@ -26,8 +25,6 @@ namespace Beryl.RootFinding
         private readonly IStoppingCriteria stoppingCriteria;
 
         private readonly Function function;
-        //the function wrapped for non-finite return values detection
-        private readonly Function wrappedFunction;
 
         private BisectionSolver(Function function, IStoppingCriteria stoppingCriteria,int maxIterations)
         {
@@ -35,11 +32,8 @@ namespace Beryl.RootFinding
                 throw new ArgumentOutOfRangeException("MaxIterations", "The number of iteractions must be non-negative");
 
             this.maxIterations = maxIterations;
-
             this.stoppingCriteria = stoppingCriteria;
-
             this.function = function;
-            wrappedFunction = FunctionWrapper.MakeWrapper(function);
 
         }
 
@@ -48,7 +42,7 @@ namespace Beryl.RootFinding
         {
 
             double a=inf, b=sup, x=0;
-            double fa=wrappedFunction(a), fb=wrappedFunction(b),fx=0;
+            double fa=function(a), fb=function(b),fx=0;
             
             bool success = false;
 
@@ -60,7 +54,7 @@ namespace Beryl.RootFinding
 
             //first iteration is used for providing a reference estimation
             x = (a + b) / 2;
-            fx = wrappedFunction(x);
+            fx = function(x);
             if (fx * fa < 0)
             {
                 b = x;
@@ -76,7 +70,7 @@ namespace Beryl.RootFinding
             for(int k=0; k<maxIterations;k++)
             {
                 x = (a + b) / 2;
-                fx = wrappedFunction(x);
+                fx = function(x);
 
                 if(stoppingCriteria.FullfilCriteria(new Vector2D(x,fx)))
                 {

@@ -4,7 +4,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Beryl.Structures
+namespace Beryl.Utilities.Structures
 {
 
     [Serializable]

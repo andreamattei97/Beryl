@@ -1,5 +1,4 @@
 ﻿using System;
-using Beryl.Utilities;
 
 namespace Beryl.NumericalIntegration
 {
@@ -15,7 +14,6 @@ namespace Beryl.NumericalIntegration
         private readonly double maxStep;
 
         private readonly Function function;
-        private readonly Function wrappedFunction;
 
         private TrapezoidIntegral(Function function, double maxStep)
         {
@@ -24,10 +22,8 @@ namespace Beryl.NumericalIntegration
                 throw new ArgumentOutOfRangeException("maxStep", "the maximum step of integration must be positive");
 
             this.maxStep = maxStep;
-
             this.function= function;
-            wrappedFunction = FunctionWrapper.MakeWrapper(function);
-
+       
         }
 
         //approximates the integral between a and b divided the interval in n sub-intervals (with n defined by the parameter intervals) 
@@ -38,11 +34,11 @@ namespace Beryl.NumericalIntegration
             int intervals =(int) Math.Ceiling((b - a) / maxStep);
             double correctedStep = (b - a) / intervals;
 
-            double result = correctedStep / 2 * (wrappedFunction(a) + wrappedFunction(b));
+            double result = correctedStep / 2 * (function(a) + function(b));
             for(int i=1;i<intervals;i++)
             {
                 double x = a + correctedStep * i;
-                result += wrappedFunction(x)*correctedStep;
+                result += function(x)*correctedStep;
             }
 
             return result;

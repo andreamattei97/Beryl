@@ -1,9 +1,9 @@
-﻿using Beryl.Structures;
+﻿using Beryl.Utilities.Structures;
 
 namespace Beryl.ODE
 {
     //the interface for ODE discretizer
-    interface IDiscretizer
+    public interface IDiscretizer
     {
         //returns the step for moving to the left of the given point
         double CalculateLeftStep(Vector2D currentPoint);

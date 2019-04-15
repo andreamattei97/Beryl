@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Beryl.NumericalDerivation
+﻿namespace Beryl.NumericalDerivation
 {
 
     public static class DerivativeExtension

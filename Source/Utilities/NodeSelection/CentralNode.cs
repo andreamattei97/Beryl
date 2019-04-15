@@ -1,10 +1,10 @@
 ﻿using System;
-using Beryl.Structures;
+using Beryl.Utilities.Structures;
 
-namespace Beryl.ODE.NodeSelection
+namespace Beryl.Utilities.NodeSelection
 {
     //a node associated to a bidirectional interval
-    class CentralNode : Node
+    public class CentralNode : Node
     {
         public readonly double rightInterval;//the dimension of the right part of the interval
         public readonly double leftInterval;//the dimension of the left part of the interval

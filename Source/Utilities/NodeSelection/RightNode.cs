@@ -1,10 +1,10 @@
 ﻿using System;
-using Beryl.Structures;
+using Beryl.Utilities.Structures;
 
-namespace Beryl.ODE.NodeSelection
+namespace Beryl.Utilities.NodeSelection
 {
     //a node associate to a right interval
-    class RightNode:Node
+    public class RightNode:Node
     {
         public readonly double interval;//dimension of the interval
 
