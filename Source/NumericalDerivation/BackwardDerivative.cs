@@ -1,5 +1,4 @@
 ﻿using System;
-using Beryl.Utilities.Math;
 
 namespace Beryl.NumericalDerivation
 {
@@ -20,12 +19,30 @@ namespace Beryl.NumericalDerivation
         }
 
         //derivative functor generator
-        public static Function MakeDerivative(Function function, double step, int order=1)
+        public static Function MakeDerivative(Function function, double step, int order)
         {
             BackwardDerivative derivative = new BackwardDerivative(function, step, order);
             return derivative.CalculateDerivative;
         }
-        
+
+        //derivative functor generator (using the default order)
+        public static Function MakeDerivative(Function function, double step)
+        {
+            return MakeDerivative(function, step, DefaultNumericalDerivationParameters.DefaultOrder);
+        }
+
+        //generates a central derivative generator
+        public static DerivativeGenerator MakeGenerator(double step, int order)
+        {
+            return (Function function) => { return MakeDerivative(function, step, order); };
+        }
+
+        //generates a central derivative generator (using the default order)
+        public static DerivativeGenerator MakeGenerator(double step)
+        {
+            return MakeGenerator(step, DefaultNumericalDerivationParameters.DefaultOrder);
+        }
+
         //precalculated Step^n
         private readonly double nStep;
         

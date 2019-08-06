@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Beryl.Utilities.Math
+namespace Beryl
 {
     //useful extra math functions that are not in System.Math
-    class MathExtra
+    public static class MathExtra
     {
         //calculates the factorial of the number
         public static int Factorial(int number)
@@ -30,6 +30,15 @@ namespace Beryl.Utilities.Math
             else if (k < 0)
                 throw new ArgumentOutOfRangeException("k", "k must be non-negative");
             return Factorial(n) / (Factorial(k) * Factorial(n - k));
+        }
+
+        //calculates the number of significant figures of a number with respect to the expected value 
+        //(if the 2 numbers are equals it returns int.MaxValue)
+        public static int CalculatePrecision(double expected, double found)
+        {
+            if (expected == found)
+                return int.MaxValue;
+            return expected.OrderOfMagnitude() - (expected - found).OrderOfMagnitude();
         }
     }
 }

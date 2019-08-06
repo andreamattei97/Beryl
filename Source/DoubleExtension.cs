@@ -1,4 +1,4 @@
-﻿namespace Beryl.Utilities.Math
+﻿namespace Beryl
 {
     public static class DoubleExtension
     {
@@ -21,6 +21,14 @@
                 }
             }
             return NonFinite;
+        }
+
+        //calculates the order of magnitude of the given number (is the number is 0 returns 0)
+        public static int OrderOfMagnitude(this double number)
+        {
+            if (number == 0)
+                return 0;
+            return (int)(System.Math.Floor(System.Math.Log10(System.Math.Abs(number))));
         }
     }
 }
