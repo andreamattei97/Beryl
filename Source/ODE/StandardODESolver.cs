@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Beryl.Utilities.Math;
 using Beryl.Utilities.NodeSelection;
 using Beryl.Utilities.Structures;
 
