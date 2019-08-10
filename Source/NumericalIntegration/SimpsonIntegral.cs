@@ -30,7 +30,10 @@ namespace Beryl.NumericalIntegration
         public double Integrate(double a, double b)
         {
 
-            int intervals = (int)Math.Ceiling((b - a) / maxStep);
+            if (a == b)
+                return 0;
+
+            int intervals = (int)(Math.Abs(Math.Ceiling((b - a) / maxStep)));
             double correctedStep = (b - a) / intervals;
 
             double result = correctedStep / 6 * (function(a) + function(b));
