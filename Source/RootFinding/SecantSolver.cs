@@ -4,19 +4,27 @@ using Beryl.Utilities.Structures;
 namespace Beryl.RootFinding
 {
 
-    public delegate Vector2D SecantSolverFunction(double x0, double x1);
-
-    class SecantSolver
+    public class SecantSolver
     {
 
-        public static SecantSolverFunction MakeSolver(Function function, IStoppingCriteria stoppingCriteria, int maxIterations = 50)
+        public static SecantSolverFunction MakeSolver(Function function, IStoppingCriteria stoppingCriteria, int maxIterations)
         {
             return new SecantSolver(function, stoppingCriteria, maxIterations).Solve;
         }
 
-        public static SecantSolverFunction MakeSolver(Function function, int maxIterations=50)
+        public static SecantSolverFunction MakeSolver(Function function, IStoppingCriteria stoppingCriteria)
         {
-            return new SecantSolver(function, new AbsoluteCriteria(0.000001), maxIterations).Solve;
+            return new SecantSolver(function, stoppingCriteria, DefaultRootFindingParameters.DefaultMaxIterations).Solve;
+        }
+
+        public static SecantSolverFunction MakeSolver(Function function, int maxIterations)
+        {
+            return new SecantSolver(function, DefaultRootFindingParameters.DefaultStoppingCriteria, maxIterations).Solve;
+        }
+
+        public static SecantSolverFunction MakeSolver(Function function)
+        {
+            return new SecantSolver(function, DefaultRootFindingParameters.DefaultStoppingCriteria, DefaultRootFindingParameters.DefaultMaxIterations).Solve;
         }
 
         private readonly int maxIterations;

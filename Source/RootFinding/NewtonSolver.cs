@@ -5,29 +5,68 @@ using Beryl.Utilities.Structures;
 namespace Beryl.RootFinding
 {
 
-    public delegate Vector2D NewtonSolverFunction (double x0,int multiplicity=1);
 
-    class NewtonSolver
+    public class NewtonSolver
     {
 
-        public static NewtonSolverFunction  MakeSolver(Function function, Function derivative, IStoppingCriteria stoppingCriteria, int maxIterations = 50)
+        public static NewtonSolverFunction  MakeSolver(Function function, Function derivative, IStoppingCriteria stoppingCriteria, int maxIterations)
         {
             return new NewtonSolver(function, derivative, stoppingCriteria, maxIterations).Solve;
         }
 
-        public static NewtonSolverFunction MakeSolver(Function function,IStoppingCriteria stoppingCriteria,int maxIterations=50)
+        public static NewtonSolverFunction MakeSolver(Function function, Function derivative, IStoppingCriteria stoppingCriteria)
         {
-            return new NewtonSolver(function, CentralDerivative.MakeDerivative(function, 0.0001), stoppingCriteria, maxIterations).Solve;
+            return new NewtonSolver(function, derivative, stoppingCriteria, DefaultRootFindingParameters.DefaultMaxIterations).Solve;
         }
 
-        public static NewtonSolverFunction MakeSolver(Function function,Function derivative,int maxIterations=50)
+        public static NewtonSolverFunction MakeSolver(Function function, DerivativeGenerator derivativeGenerator, IStoppingCriteria stoppingCriteria, int maxIterations)
         {
-            return new NewtonSolver(function, derivative, new AbsoluteCriteria(0.000001), maxIterations).Solve;
+            return new NewtonSolver(function, derivativeGenerator(function), stoppingCriteria, maxIterations).Solve;
         }
 
-        public static NewtonSolverFunction MakeSolver(Function function,int maxIterations=50)
+        public static NewtonSolverFunction MakeSolver(Function function, DerivativeGenerator derivativeGenerator, IStoppingCriteria stoppingCriteria)
         {
-            return new NewtonSolver(function, CentralDerivative.MakeDerivative(function, 0.0001), new AbsoluteCriteria(0.000001), maxIterations).Solve;
+            return new NewtonSolver(function, derivativeGenerator(function), stoppingCriteria, DefaultRootFindingParameters.DefaultMaxIterations).Solve;
+        }
+
+        public static NewtonSolverFunction MakeSolver(Function function,IStoppingCriteria stoppingCriteria,int maxIterations)
+        {
+            return new NewtonSolver(function, DefaultRootFindingParameters.DefaultDerivativeGenerator(function), stoppingCriteria, maxIterations).Solve;
+        }
+
+        public static NewtonSolverFunction MakeSolver(Function function, IStoppingCriteria stoppingCriteria)
+        {
+            return new NewtonSolver(function, DefaultRootFindingParameters.DefaultDerivativeGenerator(function), stoppingCriteria, DefaultRootFindingParameters.DefaultMaxIterations).Solve;
+        }
+
+        public static NewtonSolverFunction MakeSolver(Function function,Function derivative,int maxIterations)
+        {
+            return new NewtonSolver(function, derivative, DefaultRootFindingParameters.DefaultStoppingCriteria, maxIterations).Solve;
+        }
+
+        public static NewtonSolverFunction MakeSolver(Function function, Function derivative)
+        {
+            return new NewtonSolver(function, derivative, DefaultRootFindingParameters.DefaultStoppingCriteria, DefaultRootFindingParameters.DefaultMaxIterations).Solve;
+        }
+
+        public static NewtonSolverFunction MakeSolver(Function function, DerivativeGenerator derivativeGenerator, int maxIterations)
+        {
+            return new NewtonSolver(function, derivativeGenerator(function), DefaultRootFindingParameters.DefaultStoppingCriteria, maxIterations).Solve;
+        }
+
+        public static NewtonSolverFunction MakeSolver(Function function, DerivativeGenerator derivativeGenerator)
+        {
+            return new NewtonSolver(function, derivativeGenerator(function), DefaultRootFindingParameters.DefaultStoppingCriteria, DefaultRootFindingParameters.DefaultMaxIterations).Solve;
+        }
+
+        public static NewtonSolverFunction MakeSolver(Function function,int maxIterations)
+        {
+            return new NewtonSolver(function, DefaultRootFindingParameters.DefaultDerivativeGenerator(function), DefaultRootFindingParameters.DefaultStoppingCriteria, maxIterations).Solve;
+        }
+
+        public static NewtonSolverFunction MakeSolver(Function function)
+        {
+            return new NewtonSolver(function, DefaultRootFindingParameters.DefaultDerivativeGenerator(function), DefaultRootFindingParameters.DefaultStoppingCriteria, DefaultRootFindingParameters.DefaultMaxIterations).Solve;
         }
 
         private readonly int maxIterations;
@@ -40,7 +79,7 @@ namespace Beryl.RootFinding
         //the function derivative
         private readonly Function derivative;
 
-        private NewtonSolver(Function function,Function derivative,IStoppingCriteria stoppingCriteria,int maxIterations=50)
+        private NewtonSolver(Function function,Function derivative,IStoppingCriteria stoppingCriteria,int maxIterations)
         {
             this.function = function;
 
@@ -51,7 +90,7 @@ namespace Beryl.RootFinding
             this.maxIterations = maxIterations;
         }
 
-        public Vector2D Solve(double initialEstimation,int multiplicity=1)
+        public Vector2D Solve(double initialEstimation,int multiplicity=DefaultRootFindingParameters.DEFAULT_NEWTON_METHOD_MULTIPLICITY)
         {
             if (multiplicity < 1)
                 throw new ArgumentOutOfRangeException("multiplicity", "the multiplicity of the root must be equal or greater than 1");

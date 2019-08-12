@@ -23,7 +23,7 @@ namespace Beryl.NumericalIntegration
 
         static DefaultIntegrationParameters()
         {
-            DefaultMaxStep = INITIAL_DEFAULT_MAX_STEP;
+            _defaultMaxStep = INITIAL_DEFAULT_MAX_STEP;
         }
 
     }

@@ -4,7 +4,7 @@ using Beryl.Utilities.Structures;
 namespace Beryl.RootFinding
 {
     //checks if the difference between the current and previous solutions is smaller than the given tolerance
-    class SuccessiveAbsoluteCriteria : IStoppingCriteria
+    public class SuccessiveAbsoluteCriteria : IStoppingCriteria
     {
 
         private double _tolerance;

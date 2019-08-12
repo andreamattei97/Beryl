@@ -23,7 +23,7 @@ namespace Beryl.NumericalDerivation
 
         static DefaultNumericalDerivationParameters()
         {
-            DefaultOrder = INITIAL_DEFAULT_ORDER;
+            _defaultOrder = INITIAL_DEFAULT_ORDER;
         }
     }
 }

@@ -4,19 +4,27 @@ using Beryl.Utilities.Structures;
 namespace Beryl.RootFinding
 {
 
-    public delegate Vector2D BisectionSolverFunction(double inf, double sup);
-
-    class BisectionSolver
+    public class BisectionSolver
     {
 
-        public static BisectionSolverFunction MakeSolver(Function function, IStoppingCriteria stoppingCriteria, int maxIterations = 50)
+        public static BisectionSolverFunction MakeSolver(Function function, IStoppingCriteria stoppingCriteria, int maxIterations)
         {
             return new BisectionSolver(function, stoppingCriteria, maxIterations).Solve;
         }
 
-        public static BisectionSolverFunction MakeSolver(Function function,int maxIterations=50)
+        public static BisectionSolverFunction MakeSolver(Function function, IStoppingCriteria stoppingCriteria)
         {
-            return new BisectionSolver(function, new AbsoluteCriteria(0.000001), maxIterations).Solve;
+            return new BisectionSolver(function, stoppingCriteria, DefaultRootFindingParameters.DefaultMaxIterations).Solve;
+        }
+
+        public static BisectionSolverFunction MakeSolver(Function function,int maxIterations)
+        {
+            return new BisectionSolver(function, DefaultRootFindingParameters.DefaultStoppingCriteria, maxIterations).Solve;
+        }
+
+        public static BisectionSolverFunction MakeSolver(Function function)
+        {
+            return new BisectionSolver(function, DefaultRootFindingParameters.DefaultStoppingCriteria, DefaultRootFindingParameters.DefaultMaxIterations).Solve;
         }
 
         private readonly int maxIterations;
@@ -30,6 +38,8 @@ namespace Beryl.RootFinding
         {
             if (maxIterations < 0)
                 throw new ArgumentOutOfRangeException("MaxIterations", "The number of iteractions must be non-negative");
+            if (stoppingCriteria == null)
+                throw new ArgumentNullException("stoppingCriteria");
 
             this.maxIterations = maxIterations;
             this.stoppingCriteria = stoppingCriteria;
