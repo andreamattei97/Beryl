@@ -35,7 +35,7 @@ namespace Beryl.RootFinding
             }
             set
             {
-                if (_defaultStoppingCriteria == null)
+                if (value == null)
                     throw new ArgumentNullException("value");
                 _defaultStoppingCriteria = value;
             }
