@@ -1,5 +1,6 @@
 ﻿using System;
 using Beryl.Utilities.Structures;
+using Beryl.Utilities.Extension;
 
 namespace Beryl.RootFinding
 {

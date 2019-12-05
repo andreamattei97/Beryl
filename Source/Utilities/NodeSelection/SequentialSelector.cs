@@ -1,31 +1,41 @@
-﻿using System.Collections.Generic;
-using Beryl.Utilities.Structures;
+﻿using System;
 
 namespace Beryl.Utilities.NodeSelection
 {
-    //a standard selector that searches nodes through a sequential search
-    public class SequentialSelector:StandardSelector
+    public abstract class SequentialSelector<ParameterType, ValueType, NodeType> : Selector<ParameterType, ValueType, NodeType> where NodeType:INode<ParameterType,ValueType>
     {
-        //the standard sequential selector generator
-        public static NodeSelector SequentialSelectorGenerator(Vector2D startingPoint, List<Vector2D> rightPoints, List<Vector2D> leftPoints)
+        protected readonly int StartingIndex;
+
+        public SequentialSelector(NodeType[] nodes, int startingIndex) : base(nodes)
         {
-            return new SequentialSelector(startingPoint, rightPoints, leftPoints).SelectNode;
+            if (startingIndex < 0 && startingIndex >= nodes.Length)
+                throw new ArgumentOutOfRangeException("startingIndex");
+            StartingIndex = startingIndex;
         }
 
-        public SequentialSelector(Vector2D startingPoint, List<Vector2D> rightPoints, List<Vector2D> leftPoints):base(startingPoint,rightPoints,leftPoints){}
-
-        //sequential search algorithm
-        protected override Vector2D NodeSearch(double x, Node[] nodes)
+        protected override NodeType NodeSearch(ParameterType x, NodeType[] nodes)
         {
-            int currentPosition = 0;
+            int currentPosition = StartingIndex;
 
-            while (!nodes[currentPosition].Contains(x))
+            int direction = Math.Sign(SelectDirection(nodes[StartingIndex], x));
+            if (direction == 0)
+                return nodes[StartingIndex];
+
+            while (currentPosition>=0 && currentPosition<nodes.Length && !nodes[currentPosition].Contains(x))
             {
-                currentPosition++;
+                currentPosition+=direction;
             }
 
-            return nodes[currentPosition].point;
+            if(currentPosition==-1 || currentPosition == nodes.Length)
+            {
+                throw new SelectorException<ParameterType>(x);
+            }
+
+            return nodes[currentPosition];
 
         }
+
+        protected abstract int SelectDirection(NodeType node, ParameterType x);
+
     }
 }

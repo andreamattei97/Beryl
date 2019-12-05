@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Beryl.Utilities.NodeSelection;
 using Beryl.Utilities.Structures;
-
+/*
 namespace Beryl.ODE
 {
     public abstract class StandardODESolver
@@ -253,6 +253,7 @@ namespace Beryl.ODE
         }
 
         //calculates the next iteration of the method
-        protected abstract Vector2D Iteration(Vector2D previousNode, double step);
+        protected abstract Vector2D Iteration(StepPoint point);
     }
 }
+*/

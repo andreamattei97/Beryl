@@ -1,4 +1,4 @@
-﻿namespace Beryl
+﻿namespace Beryl.Utilities.Extension
 {
     public static class DoubleExtension
     {
@@ -16,7 +16,7 @@
             {
                 if (double.IsInfinity(number) || double.IsNaN(number))
                 {
-                    NonFinite = false;
+                    NonFinite = true;
                     break;
                 }
             }

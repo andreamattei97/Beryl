@@ -1,4 +1,5 @@
 ﻿using System;
+using Beryl.Utilities.Extension;
 
 namespace Beryl
 {
