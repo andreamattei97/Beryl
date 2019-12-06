@@ -1,12 +1,20 @@
 ﻿using System;
+
 using Beryl.Utilities.Extension;
 
 namespace Beryl
 {
-    //useful extra math functions that are not in System.Math
+    /// <summary>
+    /// Contains useful extra math functions not present in System.Math
+    /// </summary>
     public static class MathExtra
     {
-        //calculates the factorial of the number
+        /// <summary>
+        /// Calculates the factorial of the given number
+        /// </summary>
+        /// <param name="number">The number of which the factorial is calculated</param>
+        /// <returns>The factorial of the number</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when a negative number is passed</exception>
         public static int Factorial(int number)
         {
             if (number < 0)
@@ -21,7 +29,15 @@ namespace Beryl
             return result;
         }
         
-        //calculates the binomial coefficient (n k)
+        /// <summary>
+        /// Calculates the binomial coefficient of the form n choose k
+        /// </summary>
+        /// <param name="n">the upper number</param>
+        /// <param name="k">the lower number</param>
+        /// <returns>The binomial coefficient of the pair</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when n is negative</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when k is less that n</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when k is negative</exception>
         public static int BinomialCoefficient(int n,int k)
         {
             if(n < 0)
@@ -33,13 +49,18 @@ namespace Beryl
             return Factorial(n) / (Factorial(k) * Factorial(n - k));
         }
 
-        //calculates the number of significant figures of a number with respect to the expected value 
-        //(if the 2 numbers are equals it returns int.MaxValue)
-        public static int CalculatePrecision(double expected, double found)
+        /// <summary>
+        /// Calculates the precision for which a number approximated an expected value
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="number">The number to check</param>
+        /// <returns>The number of significant figures equal before the first different figures between the 2 number</returns>
+        /// <remarks>If the 2 numbers are equals it returns int.MaxValue</remarks>
+        public static int CalculatePrecision(double expected, double number)
         {
-            if (expected == found)
+            if (expected == number)
                 return int.MaxValue;
-            return expected.OrderOfMagnitude() - (expected - found).OrderOfMagnitude();
+            return expected.OrderOfMagnitude() - (expected - number).OrderOfMagnitude();
         }
     }
 }
