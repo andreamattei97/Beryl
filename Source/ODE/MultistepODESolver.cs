@@ -4,6 +4,7 @@ using Beryl.Utilities.Extension;
 using Beryl.Utilities.NodeSelection.PointSelection;
 using Beryl.Utilities.Structures;
 
+
 namespace Beryl.ODE
 {
     public abstract class MultistepODESolver
@@ -442,7 +443,12 @@ namespace Beryl.ODE
 
             return solutions;
         }
-        
+
+        protected T MapSolve<T>(T map) where T:Experimental.Beryl.Utilities.Structures.IMap<T> 
+        {
+            return map.ApplyFunction(ArraySolve);
+        }
+
         private StepPoint IterateRight(LinkedList<StepPoint> previousPoints)
         {
             Vector2D currentPoint = Iteration(previousPoints);

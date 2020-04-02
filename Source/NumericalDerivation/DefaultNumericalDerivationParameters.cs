@@ -7,37 +7,38 @@ namespace Beryl.NumericalDerivation
     /// </summary>
     public static class DefaultNumericalDerivationParameters
     {
-        /// <summary>
-        /// The initial default order
-        /// </summary>
-        /// <value>1</value>
-        public static readonly int INITIAL_DEFAULT_ORDER = 1;
 
-        //the attribute behind DefaultOrder
-        private static int _defaultOrder;
         /// <summary>
-        /// <para>The default order of finite differences</para>
-        /// <para>Check <see cref="DefaultNumericalDerivationParameters.INITIAL_DEFAULT_ORDER"/> for the intial default value</para>
+        /// The initial default step
         /// </summary>
-        /// <value>The default order</value>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the passed order is negative</exception>
-        public static int DefaultOrder
+        /// <value>0.0001</value>
+        public static readonly double INITIAL_DEFAULT_STEP = 0.0001;
+
+        //the property behind DefaultStep
+        private static double _defaultStep;
+        /// <summary>
+        /// <para>The default step of finite differences</para>
+        /// <para>Check <see cref="INITIAL_DEFAULT_STEP"/> for the intial default value</para>
+        /// </summary>
+        /// <value>The default step</value>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the passed step is non-positive</exception>
+        public static double DefaultStep
         {
             get
             {
-                return _defaultOrder;
+                return _defaultStep;
             }
             set
             {
-                if(value<0)
-                    throw new ArgumentOutOfRangeException("value", "The order of the derivative must be non-negative");
-                _defaultOrder = value;
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value", "The step must be positive");
+                _defaultStep = value;
             }
         }
 
         static DefaultNumericalDerivationParameters()
         {
-            _defaultOrder = INITIAL_DEFAULT_ORDER;
+            _defaultStep = INITIAL_DEFAULT_STEP;
         }
     }
 }

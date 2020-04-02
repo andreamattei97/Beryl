@@ -4,11 +4,13 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
+using Experimental.Beryl.Utilities.Structures;
+
 namespace Beryl.Utilities.Structures
 {
 
     [Serializable]
-    public struct Vector2D : ISerializable, IXmlSerializable
+    public struct Vector2D : ISerializable, IXmlSerializable, IMap<Vector2D>
     {
         private double _x;
         public double x
@@ -142,5 +144,11 @@ namespace Beryl.Utilities.Structures
 
         //returns if the vector contains only finite components
         public bool IsFinite() => !double.IsInfinity(x) && !double.IsNaN(x) && !double.IsInfinity(y) && !double.IsNaN(y);
+
+        public Vector2D ApplyFunction(ArrayFunction function)
+        {
+            double[] solutions = function(new double[2] { x, y });
+            return new Vector2D(solutions[0], solutions[1]);
+        }
     }
 }

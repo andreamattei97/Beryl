@@ -3,26 +3,13 @@
 namespace Beryl.NumericalDerivation
 {
     /// <summary>
-    /// Numerical derivative based on central finite difference
+    /// Numerical derivative based on forward finite difference
     /// </summary>
     /// <remarks>
-    /// <para>This class serves for generating a function that estimates the derivative through forward finite differences.</para>
-    /// <para>Compulsary parameter: 
-    /// <list type="bullet">
-    /// <item>
-    /// <term>Step:</term>
-    /// <description> the step of the difference</description>
-    /// </item>
-    /// </list>
-    /// </para>
-    /// <para>Optional parameters:
-    /// <list type="bullet">
-    /// <item>
-    /// <term>Order:</term>
-    /// <description> the order of the finite difference</description>
-    /// </item>
-    /// </list>
-    /// See <see cref="DefaultNumericalDerivationParameters"/> for default values of optional parameters.
+    /// <para>This class serves for generating a function that estimates the derivative through forward finite differences of uniform step.</para>
+    /// <para>It is possible to choose the order of the derivative. If not specified the first derivative will be generated.</para>
+    /// <para>
+    /// The step of finite differences is an optional parameter, see <see cref="DefaultNumericalDerivationParameters"/> for its default value.
     /// </para>
     /// <para>For more info on how the method works check the related <a href="https://en.wikipedia.org/wiki/Numerical_differentiation">Wikipedia page</a> </para>
     /// </remarks>
@@ -42,14 +29,15 @@ namespace Beryl.NumericalDerivation
         }
 
         /// <summary>
-        /// Generates the numerical derivative function based on the forward finite difference of given order and step
+        /// <para>Generates the numerical derivative of the given order of the function based on forward finite differences of the given step.</para> 
         /// </summary>
         /// <param name="function">The function to derive</param>
-        /// <param name="step">The step of the finite difference</param>
-        /// <param name="order">The order of the finite difference</param>
+        /// <param name="step">The step of the finite differences</param>
+        /// <param name="order">The order of the derivative</param>
         /// <returns>The function that estimates the derivative of the input function</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the given order is negative</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the given step is negative or zero</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown when the passed function is null</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the passed order is negative</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the passed step is negative or zero</exception>
         public static Function MakeDerivative(Function function, double step, int order)
         {
             ForwardDerivative derivative = new ForwardDerivative(function, step, order);
@@ -57,41 +45,91 @@ namespace Beryl.NumericalDerivation
         }
 
         /// <summary>
-        /// <para>Generates the numerical derivative function based on the forward finite difference of the default step and given step.</para> 
-        /// <para>For default parameters check <see cref="DefaultNumericalDerivationParameters"/></para>
+        /// <para>Generates the numerical first derivative of the function based on forward finite differences of the given step.</para> 
         /// </summary>
         /// <param name="function">The function to derive</param>
-        /// <param name="step">The step of the finite difference</param>
+        /// <param name="step">The step of the finite differences</param>
         /// <returns>The function that estimates the derivative of the input function</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the given step is negative or zero</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown when the passed function is null</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the passed step is negative or zero</exception>
         public static Function MakeDerivative(Function function, double step)
         {
-            return MakeDerivative(function, step, DefaultNumericalDerivationParameters.DefaultOrder);
+            return MakeDerivative(function, step, 1);
         }
 
         /// <summary>
-        /// <para>Provides a generator for numerical derivates based on forward finite differences of given order and step.</para> 
+        /// <para>Generates the numerical derivative of the given order of the function based on forward finite differences of the default step.</para> 
         /// </summary>
-        /// <param name="step">The step used by the generator</param>
+        /// <param name="function">The function to derive</param>
+        /// <param name="order">The order of the derivative</param>
+        /// <returns>The function that estimates the derivative of the input function</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown when the passed function is null</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the passed order is negative</exception>
+        /// <remarks><para>For default parameters check <see cref="DefaultNumericalDerivationParameters"/></para></remarks>
+        public static Function MakeDerivative(Function function, int order)
+        {
+            return MakeDerivative(function, DefaultNumericalDerivationParameters.DefaultStep, order);
+        }
+
+        /// <summary>
+        /// <para>Generates the numerical first derivative of the function based on forward finite differences of the default step.</para> 
+        /// </summary>
+        /// <param name="function">The function to derive</param>
+        /// <returns>The function that estimates the derivative of the input function</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown when the passed function is null</exception>
+        /// <remarks><para>For default parameters check <see cref="DefaultNumericalDerivationParameters"/></para></remarks>
+        public static Function MakeDerivative(Function function)
+        {
+            return MakeDerivative(function, DefaultNumericalDerivationParameters.DefaultStep, 1);
+        }
+
+        /// <summary>
+        /// <para>Provides a generator for numerical derivatives based on forward finite differences of given order and step.</para> 
+        /// </summary>
+        /// <param name="step">The step of the finite differences</param>
         /// <param name="order">The order of the generated derivatives</param>
         /// <returns>The generator of numerical derivatives of the given step and order</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the given order is negative</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the given step is negative or zero</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the passed step is negative or zero</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the passed order is negative</exception>
         public static DerivativeGenerator MakeGenerator(double step, int order)
         {
             return (Function function) => { return MakeDerivative(function, step, order); };
         }
 
         /// <summary>
-        /// <para>Provides a generator for numerical derivates based on forward finite differences of the default order and step.</para> 
-        /// <para>For default parameters check <see cref="DefaultNumericalDerivationParameters"/></para>
+        /// <para>Provides a generator for numerical first derivatives based on forward finite differences of the given step.</para> 
         /// </summary>
         /// <param name="step">The step used by the generator</param>
         /// <returns>The generator of numerical derivatives of the given step and order</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the given step is negative or zero</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the passed step is negative or zero</exception>
         public static DerivativeGenerator MakeGenerator(double step)
         {
-            return MakeGenerator(step, DefaultNumericalDerivationParameters.DefaultOrder);
+            return MakeGenerator(step, 1);
+        }
+
+        /// <summary>
+        /// <para>Provides a generator for numerical derivatives based on forward finite differences of the default step.</para> 
+        /// </summary>
+        /// <param name="step">The step used by the generator</param>
+        /// <param name="order">The order of the generated derivatives</param>
+        /// <returns>The generator of numerical derivatives of the given step and order</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the passed order is negative</exception>
+        /// <remarks><para>For default parameters check <see cref="DefaultNumericalDerivationParameters"/></para></remarks>
+        public static DerivativeGenerator MakeGenerator(int order)
+        {
+            return (Function function) => { return MakeDerivative(function, DefaultNumericalDerivationParameters.DefaultStep, order); };
+        }
+
+        /// <summary>
+        /// <para>Provides a generator for numerical first derivatives based on forward finite differences of the default step.</para> 
+        /// </summary>
+        /// <param name="step">The step used by the generator</param>
+        /// <param name="order">The order of the generated derivatives</param>
+        /// <returns>The generator of numerical derivatives of the given step and order</returns>
+        /// <remarks><para>For default parameters check <see cref="DefaultNumericalDerivationParameters"/></para></remarks>
+        public static DerivativeGenerator MakeGenerator()
+        {
+            return (Function function) => { return MakeDerivative(function, DefaultNumericalDerivationParameters.DefaultStep, 1); };
         }
 
         //precalculated Step^n
@@ -104,6 +142,8 @@ namespace Beryl.NumericalDerivation
 
         private ForwardDerivative(Function function, double step, int order)
         {
+            if (function == null)
+                throw new ArgumentNullException("function");
 
             if (order < 0)
                 throw new ArgumentOutOfRangeException("order", "The order of the derivative must be non-negative");
