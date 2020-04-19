@@ -314,11 +314,6 @@ namespace Beryl.ODE
             return solutions;
         }
 
-        protected T MapSolve<T>(T map) where T : Experimental.Beryl.Utilities.Structures.IMap<T>
-        {
-            return map.ApplyFunction(ArraySolve);
-        }
-
         protected abstract Vector2D Iteration(StepPoint previousPoint);
 
     }

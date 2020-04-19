@@ -3,8 +3,6 @@
 using Beryl.Utilities.Structures;
 using Beryl.Utilities.NodeSelection.PointSelection;
 
-using Experimental.Beryl.Utilities.Structures;
-
 namespace Beryl.ODE
 {
     public class Adams3Solver : MultistepODESolver
@@ -158,58 +156,6 @@ namespace Beryl.ODE
         public static ArrayFunction MakeArraySolution(ODEFunction function, ODEInitialConditions initialConditions)
         {
             return new Adams3Solver(function, initialConditions, DefaultODEParameters.DefaultauxiliaryIterator, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations).ArraySolve;
-        }
-
-        #endregion
-
-        #region MapSolver
-
-        //all parameters
-        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions, SingleStepIteration auxiliaryIterator, IDiscretizer discretizer, int maxIterations) where T : IMap<T>
-        {
-            return new Adams3Solver(function, initialConditions, auxiliaryIterator, discretizer, maxIterations).MapSolve<T>;
-        }
-
-        //no max iterations
-        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions, SingleStepIteration auxiliaryIterator, IDiscretizer discretizer) where T : IMap<T>
-        {
-            return new Adams3Solver(function, initialConditions, auxiliaryIterator, discretizer, DefaultODEParameters.DefaultMaxIterations).MapSolve<T>;
-        }
-
-        //no discretizer
-        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions, SingleStepIteration auxiliaryIterator, int maxIterations) where T : IMap<T>
-        {
-            return new Adams3Solver(function, initialConditions, auxiliaryIterator, DefaultODEParameters.DefaultDiscretizer, maxIterations).MapSolve<T>;
-        }
-
-        //no auxiliary iterator
-        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer, int maxIterations) where T : IMap<T>
-        {
-            return new Adams3Solver(function, initialConditions, DefaultODEParameters.DefaultauxiliaryIterator, discretizer, maxIterations).MapSolve<T>;
-        }
-
-        //no discretizer, no max iterations
-        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions, SingleStepIteration auxiliaryIterator) where T : IMap<T>
-        {
-            return new Adams3Solver(function, initialConditions, auxiliaryIterator, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations).MapSolve<T>;
-        }
-
-        //no auxiliary iterator, no max iterations
-        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer) where T : IMap<T>
-        {
-            return new Adams3Solver(function, initialConditions, DefaultODEParameters.DefaultauxiliaryIterator, discretizer, DefaultODEParameters.DefaultMaxIterations).MapSolve<T>;
-        }
-
-        //no auxiliary iterator, no discretizer
-        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions, int maxIterations) where T : IMap<T>
-        {
-            return new Adams3Solver(function, initialConditions, DefaultODEParameters.DefaultauxiliaryIterator, DefaultODEParameters.DefaultDiscretizer, maxIterations).MapSolve<T>;
-        }
-
-        //no auxiliary iterator, no discretizer, no max iterations
-        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions) where T : IMap<T>
-        {
-            return new Adams3Solver(function, initialConditions, DefaultODEParameters.DefaultauxiliaryIterator, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations).MapSolve<T>;
         }
 
         #endregion
