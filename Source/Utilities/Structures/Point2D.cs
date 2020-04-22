@@ -8,7 +8,7 @@ namespace Beryl.Utilities.Structures
 {
 
     [Serializable]
-    public struct Point2D : ISerializable, IXmlSerializable, IMap<Point2D>
+    public struct Point2D : ISerializable, IXmlSerializable
     {
         private double _x;
         public double x
@@ -142,11 +142,5 @@ namespace Beryl.Utilities.Structures
 
         //returns if the vector contains only finite components
         public bool IsFinite() => !double.IsInfinity(x) && !double.IsNaN(x) && !double.IsInfinity(y) && !double.IsNaN(y);
-
-        public Point2D ApplyFunction(ArrayFunction function)
-        {
-            double[] solutions = function(new double[2] { x, y });
-            return new Point2D(solutions[0], solutions[1]);
-        }
     }
 }
