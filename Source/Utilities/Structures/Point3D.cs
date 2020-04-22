@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace Beryl.Utilities.Structures
 {
-    public struct Point3D : IXmlSerializable, ISerializable
+    public struct Point3D : IXmlSerializable, ISerializable, IMap<Point3D>
     {
         private double _x;
         public double x
@@ -59,7 +59,7 @@ namespace Beryl.Utilities.Structures
             return new Point3D(vector.x / k, vector.y / k, vector.z / k);
         }
 
-        //converts the vector into a 2d vector (Point2D) as (x,y)
+        //converts the vector into a 2d vector (Vector2d) as (x,y)
         public static explicit operator Point2D(Point3D vector)
         {
             return new Point2D(vector.x, vector.y);
@@ -135,5 +135,11 @@ namespace Beryl.Utilities.Structures
 
         //returns if the vector contains only finite components
         public bool IsFinite() => !double.IsInfinity(x) && !double.IsNaN(x) && !double.IsInfinity(y) && !double.IsNaN(y) && !double.IsInfinity(z) && !double.IsNaN(z);
+
+        public Point3D ApplyFunction(ArrayFunction function)
+        {
+            double[] solutions = function(new double[3] { x, y, z });
+            return new Point3D(solutions[0], solutions[1], solutions[2]);
+        }
     }
 }
