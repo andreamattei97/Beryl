@@ -7,8 +7,8 @@ namespace Beryl.ODE
     public delegate double ODEFunction(double x, double y);
 
     //the delegate for an ODE solver for a set of points
-    public delegate Vector2D[] ArraySolver(double[] points);
+    public delegate Point2D[] ArraySolver(double[] points);
 
     //the iteration of a single step method
-    public delegate Vector2D SingleStepIteration(ODEFunction f,StepPoint point);
+    public delegate Point2D SingleStepIteration(ODEFunction f,StepPoint point);
 }

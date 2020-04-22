@@ -166,7 +166,7 @@ namespace Beryl.ODE
         {
         }
 
-        protected override Vector2D Iteration(LinkedList<StepPoint> points)
+        protected override Point2D Iteration(LinkedList<StepPoint> points)
         {
             LinkedListNode<StepPoint> currentNode = points.First;
             double x = currentNode.Value.Coordinates.x + currentNode.Value.Step;
@@ -178,7 +178,7 @@ namespace Beryl.ODE
 
 
             double y = ((y1 - y2) * h1 * h1) / (2 * h2) + y1 * h1 + y1;
-            return new Vector2D(x, y);
+            return new Point2D(x, y);
         }
     }
 }

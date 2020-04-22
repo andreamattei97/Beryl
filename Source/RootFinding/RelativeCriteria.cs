@@ -44,7 +44,7 @@ namespace Beryl.RootFinding
         /// </summary>
         /// <param name="point"></param>
         /// <returns>True if the distance is less than the tolerance, otherwise False</returns>
-        public bool FullfilCriteria(Vector2D point)
+        public bool FullfilCriteria(Point2D point)
         {
             return Math.Abs(point.y)<Tolerance*Math.Abs(_referenceValue);
         }
@@ -53,7 +53,7 @@ namespace Beryl.RootFinding
         /// Set initial estimation reference
         /// </summary>
         /// <param name="referencePoint">The initial estimation reference</param>
-        public void SetReference(Vector2D referencePoint)
+        public void SetReference(Point2D referencePoint)
         {
             _referenceValue = referencePoint.y;
         }

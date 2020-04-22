@@ -29,7 +29,7 @@ This is how to calculate the zero between 1 and 2 of the derivative of sine (app
 //using the .net standard sine function
 Function sine = Math.Sin; 
 //result: (x=zero,y=error), stopping criteria: absolute with h=10-6
-Vector2D zero=sine.CentralDerivative(0.0001).BisectionSolve(2,1);
+Point2D zero=sine.CentralDerivative(0.0001).BisectionSolve(2,1);
 ```
 
 ## Quick Example 2
@@ -42,7 +42,7 @@ ODEFunction ODEArgument = (x, y) => y;
 //sets optimization options (node selector type, number of nodes, and node spanning)
 OptimizationOptions optimizationOptions = new OptimizationOptions(BinarySelector.BinarySelectorGenerator, 20, 20, 500);
 //the initial condition of the problem
-Vector2D initialCondition = new Vector2D(0, 1);
+Point2D initialCondition = new Point2D(0, 1);
 //gets the solution function
 Function ODESolution = ODEArgument.EulerSolve(initialCondition, optimizationOptions);
 ```

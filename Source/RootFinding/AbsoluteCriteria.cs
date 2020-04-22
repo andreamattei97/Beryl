@@ -42,7 +42,7 @@ namespace Beryl.RootFinding
         /// </summary>
         /// <param name="point"></param>
         /// <returns>True if the distance is less than the tolerance, otherwise False</returns>
-        public bool FullfilCriteria(Vector2D point)
+        public bool FullfilCriteria(Point2D point)
         {
             return Math.Abs(point.y)<Tolerance;
         }

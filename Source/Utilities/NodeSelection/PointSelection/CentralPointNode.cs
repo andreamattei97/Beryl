@@ -11,12 +11,12 @@ namespace Beryl.Utilities.NodeSelection.PointSelection
         public readonly double RightInterval;//the dimension of the right part of the interval
         public readonly double LeftInterval;//the dimension of the left part of the interval
 
-        public CentralPointNode(Vector2D coordinates, double rightStep, double leftStep, double rightInterval, double leftInterval) : 
+        public CentralPointNode(Point2D coordinates, double rightStep, double leftStep, double rightInterval, double leftInterval) : 
             this(coordinates, new StepPoint[] { new StepPoint(coordinates, rightStep) }, new StepPoint[] { new StepPoint(coordinates, leftStep) },rightInterval,leftInterval)
         {
         }
 
-        public CentralPointNode(Vector2D coordinates, StepPoint[] rightPreviousPoints, StepPoint[] leftPreviousPoints, double rightInterval, double leftInterval):base(coordinates)
+        public CentralPointNode(Point2D coordinates, StepPoint[] rightPreviousPoints, StepPoint[] leftPreviousPoints, double rightInterval, double leftInterval):base(coordinates)
         {
             if (leftInterval < 0)
                 throw new ArgumentOutOfRangeException("leftInterval", leftInterval, "the left interval must be non-negative");

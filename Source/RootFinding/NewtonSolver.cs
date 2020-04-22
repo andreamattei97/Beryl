@@ -251,7 +251,7 @@ namespace Beryl.RootFinding
             //set the reference estimation 
             if (stoppingCriteria is IReferenceStoppingCriteria)
             {
-                ((IReferenceStoppingCriteria)stoppingCriteria).SetReference(new Vector2D(xn, function(xn)));
+                ((IReferenceStoppingCriteria)stoppingCriteria).SetReference(new Point2D(xn, function(xn)));
             }
 
             for(int k=0;k<maxIterations;k++)
@@ -262,7 +262,7 @@ namespace Beryl.RootFinding
                 if (dfn == 0 && fn != 0)
                     throw new CalculationException("Cannot continue calculation, the function derivative is 0 in " + xn, function);
 
-                if(stoppingCriteria.FullfilCriteria(new Vector2D(xn,fn)))
+                if(stoppingCriteria.FullfilCriteria(new Point2D(xn,fn)))
                 {
                     success = true;
                     break;

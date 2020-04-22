@@ -12,11 +12,11 @@ namespace Beryl.ODE
 
         private readonly int maxIterations;
         private readonly IDiscretizer discretizer;
-        private readonly Vector2D initialCondition;
+        private readonly Point2D initialCondition;
         private readonly NodeSelector nodeSelector;
         protected readonly ODEFunction function;
 
-        protected StandardODESolver(ODEFunction function, Vector2D initialCondition, IDiscretizer discretizer, int maxIterations = DEFAULT_MAX_ITERATIONS)
+        protected StandardODESolver(ODEFunction function, Point2D initialCondition, IDiscretizer discretizer, int maxIterations = DEFAULT_MAX_ITERATIONS)
         {
             if (discretizer == null)
                 throw new ArgumentNullException("discretizer", "Null discretizer passed");
@@ -32,7 +32,7 @@ namespace Beryl.ODE
             this.initialCondition = initialCondition;
         }
 
-        protected StandardODESolver(ODEFunction function, Vector2D initialCondition, IDiscretizer discretizer, OptimizationOptions options, int maxIterations = DEFAULT_MAX_ITERATIONS):
+        protected StandardODESolver(ODEFunction function, Point2D initialCondition, IDiscretizer discretizer, OptimizationOptions options, int maxIterations = DEFAULT_MAX_ITERATIONS):
             this(function,initialCondition,discretizer,maxIterations)
         {
             nodeSelector = GenerateSelector(options);
@@ -41,8 +41,8 @@ namespace Beryl.ODE
         //calculates the optimization nodes and generates the related node selector
         private NodeSelector GenerateSelector(OptimizationOptions options)
         {
-            List<Vector2D> rightNodes = new List<Vector2D>(options.RightIntervals);
-            Vector2D currentNode = initialCondition;
+            List<Point2D> rightNodes = new List<Point2D>(options.RightIntervals);
+            Point2D currentNode = initialCondition;
             for (int i = 0; i < options.RightIntervals; i++)
             {
                 for (int j = 0; j < options.RightIntervalsSpan; j++)
@@ -52,7 +52,7 @@ namespace Beryl.ODE
                 rightNodes.Add(currentNode);
             }
 
-            List<Vector2D> leftNodes = new List<Vector2D>(options.LeftIntervals);
+            List<Point2D> leftNodes = new List<Point2D>(options.LeftIntervals);
             currentNode = initialCondition;
             for (int i = 0; i < options.LeftIntervals; i++)
             {
@@ -75,8 +75,8 @@ namespace Beryl.ODE
             if (x == initialCondition.x)//if the searched point is the initial one returns directly it
                 return initialCondition.y;
 
-            Vector2D solution = new Vector2D();
-            Vector2D previousNode, nextNode;
+            Point2D solution = new Point2D();
+            Point2D previousNode, nextNode;
             if (nodeSelector != null)
             {
                 previousNode = nodeSelector(x);
@@ -135,10 +135,10 @@ namespace Beryl.ODE
         }
 
         //calculates the value of the solution in the given points
-        public Vector2D[] Solve(double[] x)
+        public Point2D[] Solve(double[] x)
         {
             //the linked list used for constructing the ordered vector
-            LinkedList<Vector2D> solutionsList = new LinkedList<Vector2D>();
+            LinkedList<Point2D> solutionsList = new LinkedList<Point2D>();
 
             List<double> leftPoints = new List<double>(); //all points less than the initial point
             List<double> rightPoints = new List<double>(); //all points greater than the inital point
@@ -157,31 +157,31 @@ namespace Beryl.ODE
             leftPoints.Sort((double n1, double n2) => -n1.CompareTo(n2));
             rightPoints.Sort();
 
-            List<Vector2D> rightSolutions = SolveRight(rightPoints);
+            List<Point2D> rightSolutions = SolveRight(rightPoints);
             for (int i = 0; i < rightSolutions.Count; i++)
             {
                 solutionsList.AddLast(rightSolutions[i]);
             }
 
-            List<Vector2D> leftSolutions = SolveLeft(leftPoints);
+            List<Point2D> leftSolutions = SolveLeft(leftPoints);
             for (int i = 0; i < leftSolutions.Count; i++)
             {
                 solutionsList.AddFirst(leftSolutions[i]);
             }
 
-            Vector2D[] array = new Vector2D[solutionsList.Count];
+            Point2D[] array = new Point2D[solutionsList.Count];
             solutionsList.CopyTo(array, 0);
             return array;
         }
 
         //calculates the value of the solution of points greater than the initial one
-        private List<Vector2D> SolveRight(List<double> rightPoints)
+        private List<Point2D> SolveRight(List<double> rightPoints)
         {
 
-            List<Vector2D> solutions = new List<Vector2D>(rightPoints.Count);
+            List<Point2D> solutions = new List<Point2D>(rightPoints.Count);
 
-            Vector2D previousNode = initialCondition; //the second-last calculated node
-            Vector2D nextNode = initialCondition; //the last calculated node
+            Point2D previousNode = initialCondition; //the second-last calculated node
+            Point2D nextNode = initialCondition; //the last calculated node
 
             int iterations = 0; //number of iterations (an iteration is the calculation of a node)
             for (int i = 0; i < rightPoints.Count && iterations < maxIterations; i++)
@@ -214,13 +214,13 @@ namespace Beryl.ODE
         }
 
         //calculates the value of the solution of points less than the initial one
-        private List<Vector2D> SolveLeft(List<double> leftPoints)
+        private List<Point2D> SolveLeft(List<double> leftPoints)
         {
 
-            List<Vector2D> solutions = new List<Vector2D>(leftPoints.Count);
+            List<Point2D> solutions = new List<Point2D>(leftPoints.Count);
 
-            Vector2D previousNode = initialCondition; //the second-last calculated node
-            Vector2D nextNode = initialCondition; //the last calculated node
+            Point2D previousNode = initialCondition; //the second-last calculated node
+            Point2D nextNode = initialCondition; //the last calculated node
 
             int iterations = 0; //number of iterations (an iteration is the calculation of a node)
             for (int i = 0; i < leftPoints.Count && iterations < maxIterations; i++)
@@ -253,7 +253,7 @@ namespace Beryl.ODE
         }
 
         //calculates the next iteration of the method
-        protected abstract Vector2D Iteration(StepPoint point);
+        protected abstract Point2D Iteration(StepPoint point);
     }
 }
 */

@@ -133,7 +133,7 @@ namespace Beryl.RootFinding
             //set the initial reference estimation if needed 
             if(stoppingCriteria is IReferenceStoppingCriteria)
             {
-                ((IReferenceStoppingCriteria)stoppingCriteria).SetReference(new Vector2D(x, fx));
+                ((IReferenceStoppingCriteria)stoppingCriteria).SetReference(new Point2D(x, fx));
             }
 
             for(int k=0; k<maxIterations;k++)
@@ -141,7 +141,7 @@ namespace Beryl.RootFinding
                 x = (a + b) / 2;
                 fx = function(x);
 
-                if(stoppingCriteria.FullfilCriteria(new Vector2D(x,fx)))
+                if(stoppingCriteria.FullfilCriteria(new Point2D(x,fx)))
                 {
                     success = true;
                     break;

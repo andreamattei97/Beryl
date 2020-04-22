@@ -32,7 +32,7 @@ namespace Beryl.RootFinding
             }
         }
 
-        private Vector2D _previousPoint;
+        private Point2D _previousPoint;
 
         /// <param name="tolerance">The maximum accepted distance between 2 consecutive iterations</param>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when a negative tolerance is passed</exception>
@@ -47,7 +47,7 @@ namespace Beryl.RootFinding
         /// </summary>
         /// <param name="point">The point to check</param>
         /// <returns>True if the distance is less than the tolerance, otherwise False</returns>
-        public bool FullfilCriteria(Vector2D point)
+        public bool FullfilCriteria(Point2D point)
         {
             bool success = Math.Abs(point.x - _previousPoint.x) < Tolerance;
             _previousPoint = point;
@@ -58,7 +58,7 @@ namespace Beryl.RootFinding
         /// Set initial estimation reference
         /// </summary>
         /// <param name="referencePoint">The initial estimation reference</param>
-        public void SetReference(Vector2D referencePoint)
+        public void SetReference(Point2D referencePoint)
         {
             _previousPoint = referencePoint;
         }

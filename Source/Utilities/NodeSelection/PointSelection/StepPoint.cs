@@ -4,10 +4,10 @@ namespace Beryl.Utilities.NodeSelection.PointSelection
 {
     public struct StepPoint
     {
-        public Vector2D Coordinates { get; }
+        public Point2D Coordinates { get; }
         public double Step { get; }
 
-        public StepPoint(Vector2D coordinates,double step)
+        public StepPoint(Point2D coordinates,double step)
         {
             Coordinates = coordinates;
             Step = step;

@@ -12,7 +12,7 @@ namespace Beryl.RootFinding
         /// </summary>
         /// <param name="point">The point to be checked</param>
         /// <returns>True if the point fullfil the criteria otherwise False</returns>
-        bool FullfilCriteria(Vector2D point);
+        bool FullfilCriteria(Point2D point);
 
     }
 }

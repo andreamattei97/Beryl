@@ -6,12 +6,12 @@ namespace Beryl.Utilities.NodeSelection.PointSelection
     public abstract class PointNode : INode<double, StepPoint>, IComparable<PointNode>, IComparable
     {
 
-        public Vector2D Coordinates
+        public Point2D Coordinates
         {
             get;
         }
 
-        public PointNode(Vector2D coordinates)
+        public PointNode(Point2D coordinates)
         {
             Coordinates = coordinates;
         }

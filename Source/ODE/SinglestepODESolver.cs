@@ -37,8 +37,8 @@ namespace Beryl.ODE
 
         protected readonly ODEFunction function;
 
-        private Vector2D _startingCoordinates;
-        protected Vector2D StartingCoordinates { get { return _startingCoordinates; } }
+        private Point2D _startingCoordinates;
+        protected Point2D StartingCoordinates { get { return _startingCoordinates; } }
 
         protected readonly IDiscretizer discretizer;
         protected readonly PointSelector nodeSelector;
@@ -65,7 +65,7 @@ namespace Beryl.ODE
             _startingCoordinates = initialConditions.StartingPoint;
         }
 
-        protected SinglestepODESolver(ODEFunction function, Vector2D initialPoint, IDiscretizer discretizer, int maxIterations) : this(function, new ODEInitialConditions(initialPoint, new Vector2D[0], new Vector2D[0]), discretizer, maxIterations)
+        protected SinglestepODESolver(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, int maxIterations) : this(function, new ODEInitialConditions(initialPoint, new Point2D[0], new Point2D[0]), discretizer, maxIterations)
         { }
 
         protected SinglestepODESolver(ODEFunction function, ODEInitialConditions initialCondition, IDiscretizer discretizer, IODEOptimizer optimizer, int maxIterations) :
@@ -74,7 +74,7 @@ namespace Beryl.ODE
             nodeSelector = GenerateSelector(optimizer);
         }
 
-        protected SinglestepODESolver(ODEFunction function, Vector2D initialPoint, IDiscretizer discretizer, IODEOptimizer optimizer, int maxIterations) : this(function, new ODEInitialConditions(initialPoint, new Vector2D[0], new Vector2D[0]), discretizer, optimizer, maxIterations)
+        protected SinglestepODESolver(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, IODEOptimizer optimizer, int maxIterations) : this(function, new ODEInitialConditions(initialPoint, new Point2D[0], new Point2D[0]), discretizer, optimizer, maxIterations)
         { }
 
         private PointSelector GenerateSelector(IODEOptimizer optimizer)
@@ -99,8 +99,8 @@ namespace Beryl.ODE
                 return new RightPointNode[0];
 
             RightPointNode[] rightNodes = new RightPointNode[nodeDistribution.Length];
-            Vector2D previousNodeCoordinates = _startingCoordinates;
-            Vector2D currentNodeCoordinates = _startingCoordinates;
+            Point2D previousNodeCoordinates = _startingCoordinates;
+            Point2D currentNodeCoordinates = _startingCoordinates;
             
             for (int j = 0; j < nodeDistribution[0]; j++)
             {
@@ -132,8 +132,8 @@ namespace Beryl.ODE
 
             LeftPointNode[] leftNodes = new LeftPointNode[nodeDistribution.Length];
 
-            Vector2D previousNodeCoordinates = _startingCoordinates;
-            Vector2D currentNodeCoordinates = _startingCoordinates;
+            Point2D previousNodeCoordinates = _startingCoordinates;
+            Point2D currentNodeCoordinates = _startingCoordinates;
             for(int j=0;j<nodeDistribution[0];j++)
             {
                 currentNodeCoordinates = Iteration(new StepPoint(currentNodeCoordinates, discretizer.CalculateLeftStep(currentNodeCoordinates)));
@@ -216,7 +216,7 @@ namespace Beryl.ODE
                 else
                 {
                     previousPoint = currentPoint;
-                    Vector2D newCoordinates=Iteration(currentPoint);
+                    Point2D newCoordinates=Iteration(currentPoint);
                     currentPoint = new StepPoint(newCoordinates, discretizer.CalculateLeftStep(newCoordinates));
                 }
             }
@@ -250,7 +250,7 @@ namespace Beryl.ODE
                 else
                 {
                     previousPoint = currentPoint;
-                    Vector2D newCoordinates = Iteration(currentPoint);
+                    Point2D newCoordinates = Iteration(currentPoint);
                     currentPoint = new StepPoint(newCoordinates, discretizer.CalculateRightStep(newCoordinates));
                 }
             }
@@ -314,7 +314,7 @@ namespace Beryl.ODE
             return solutions;
         }
 
-        protected abstract Vector2D Iteration(StepPoint previousPoint);
+        protected abstract Point2D Iteration(StepPoint previousPoint);
 
     }
 }

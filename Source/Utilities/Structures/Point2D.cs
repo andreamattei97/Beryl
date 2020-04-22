@@ -8,7 +8,7 @@ namespace Beryl.Utilities.Structures
 {
 
     [Serializable]
-    public struct Vector2D : ISerializable, IXmlSerializable
+    public struct Point2D : ISerializable, IXmlSerializable
     {
         private double _x;
         public double x
@@ -32,42 +32,42 @@ namespace Beryl.Utilities.Structures
         #region Operator overloading
 
         //returns the dot product of the 2 vectors
-        public static double operator *(Vector2D v1, Vector2D v2)
+        public static double operator *(Point2D v1, Point2D v2)
         {
             return v1.x * v2.x + v1.y * v2.y;
         }
 
         //returns the vector multiplied by the scalar k
-        public static Vector2D operator *(Vector2D v1, double k)
+        public static Point2D operator *(Point2D v1, double k)
         {
-            return new Vector2D(v1.x * k, v1.y * k);
+            return new Point2D(v1.x * k, v1.y * k);
         }
 
         //returns the vector multiplied by the scalar k
-        public static Vector2D operator *(double k, Vector2D v1)
+        public static Point2D operator *(double k, Point2D v1)
         {
-            return new Vector2D(v1.x * k, v1.y * k);
+            return new Point2D(v1.x * k, v1.y * k);
         }
 
         //returns the addition of the 2 given vectors
-        public static Vector2D operator +(Vector2D v1, Vector2D v2)
+        public static Point2D operator +(Point2D v1, Point2D v2)
         {
-            return new Vector2D(v1.x + v2.x, v1.y + v2.y);
+            return new Point2D(v1.x + v2.x, v1.y + v2.y);
         }
 
         //returns the subtraction of the 2 given vectors
-        public static Vector2D operator -(Vector2D v1, Vector2D v2)
+        public static Point2D operator -(Point2D v1, Point2D v2)
         {
-            return new Vector2D(v1.x - v2.x, v1.y - v2.y);
+            return new Point2D(v1.x - v2.x, v1.y - v2.y);
         }
 
         //returns the vector multiplied by the scalar 1/k
-        public static Vector2D operator /(Vector2D v, double k)
+        public static Point2D operator /(Point2D v, double k)
         {
-            Vector2D result;
+            Point2D result;
             try
             {
-                result = new Vector2D(v.x / k, v.y / k);
+                result = new Point2D(v.x / k, v.y / k);
             }
             catch (Exception ex)
             {
@@ -76,10 +76,10 @@ namespace Beryl.Utilities.Structures
             return result;
         }
 
-        //converts the vector into a 3d vector (Vector3d) as (x,y,0)
-        public static implicit operator Vector3D(Vector2D vector)
+        //converts the vector into a 3d vector (Point3D) as (x,y,0)
+        public static implicit operator Point3D(Point2D vector)
         {
-            return new Vector3D(vector.x, vector.y, 0);
+            return new Point3D(vector.x, vector.y, 0);
         }
 
         #endregion
@@ -94,7 +94,7 @@ namespace Beryl.Utilities.Structures
         }
 
         //special constructor used during the deserialization
-        public Vector2D(SerializationInfo info, StreamingContext context)
+        public Point2D(SerializationInfo info, StreamingContext context)
         {
             _x = info.GetDouble("x");
             _y = info.GetDouble("y");
@@ -128,7 +128,7 @@ namespace Beryl.Utilities.Structures
         #endregion
 
         //sets base value
-        public Vector2D(double x, double y)
+        public Point2D(double x, double y)
         {
             _x = x;
             _y = y;

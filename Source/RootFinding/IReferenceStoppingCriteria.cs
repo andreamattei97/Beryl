@@ -11,6 +11,6 @@ namespace Beryl.RootFinding
         /// Set reference point for the criteria
         /// </summary>
         /// <param name="referencePoint">The reference point of the criteria</param>
-        void SetReference(Vector2D referencePoint);
+        void SetReference(Point2D referencePoint);
     }
 }

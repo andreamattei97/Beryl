@@ -62,49 +62,49 @@ namespace Beryl.ODE
         #region Solver-InitialPoint
 
         //no optimizer
-        public static Function MakeSolution(ODEFunction function, Vector2D initialPoint, IDiscretizer discretizer, int maxIterations)
+        public static Function MakeSolution(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, int maxIterations)
         {
             return new HeunSolver(function, initialPoint, discretizer, maxIterations).Solve;
         }
 
         //all parameters
-        public static Function MakeSolution(ODEFunction function, Vector2D initialPoint, IDiscretizer discretizer, IODEOptimizer optimizer, int maxIterations)
+        public static Function MakeSolution(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, IODEOptimizer optimizer, int maxIterations)
         {
             return new HeunSolver(function, initialPoint, discretizer, optimizer, maxIterations).Solve;
         }
 
         //no optimizer, no max iterations
-        public static Function MakeSolution(ODEFunction function, Vector2D initialPoint, IDiscretizer discretizer)
+        public static Function MakeSolution(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer)
         {
             return new HeunSolver(function, initialPoint, discretizer, DefaultODEParameters.DefaultMaxIterations).Solve;
         }
 
         //no max iterations
-        public static Function MakeSolution(ODEFunction function, Vector2D initialPoint, IDiscretizer discretizer, IODEOptimizer optimizer)
+        public static Function MakeSolution(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, IODEOptimizer optimizer)
         {
             return new HeunSolver(function, initialPoint, discretizer, optimizer, DefaultODEParameters.DefaultMaxIterations).Solve;
         }
 
         //no discretizer, no optimizer
-        public static Function MakeSolution(ODEFunction function, Vector2D initialPoint, int maxIterations)
+        public static Function MakeSolution(ODEFunction function, Point2D initialPoint, int maxIterations)
         {
             return new HeunSolver(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, maxIterations).Solve;
         }
 
         //no discretizer
-        public static Function MakeSolution(ODEFunction function, Vector2D initialPoint, IODEOptimizer optimizer, int maxIterations)
+        public static Function MakeSolution(ODEFunction function, Point2D initialPoint, IODEOptimizer optimizer, int maxIterations)
         {
             return new HeunSolver(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, optimizer, maxIterations).Solve;
         }
 
         //no discretizer, no max iterations, no optimizer
-        public static Function MakeSolution(ODEFunction function, Vector2D initialPoint)
+        public static Function MakeSolution(ODEFunction function, Point2D initialPoint)
         {
             return new HeunSolver(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations).Solve;
         }
 
         //no discretizer, no max iterations
-        public static Function MakeSolution(ODEFunction function, Vector2D initialPoint, IODEOptimizer optimizer)
+        public static Function MakeSolution(ODEFunction function, Point2D initialPoint, IODEOptimizer optimizer)
         {
             return new HeunSolver(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, optimizer, DefaultODEParameters.DefaultMaxIterations).Solve;
         }
@@ -142,25 +142,25 @@ namespace Beryl.ODE
         #region ArraySolver-InitialPoint
 
         //all parameters
-        public static ArrayFunction MakeArraySolution(ODEFunction function, Vector2D initialPoint, IDiscretizer discretizer, int maxIterations)
+        public static ArrayFunction MakeArraySolution(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, int maxIterations)
         {
             return new HeunSolver(function, initialPoint, discretizer, maxIterations).ArraySolve;
         }
 
         //no max iterations
-        public static ArrayFunction MakeArraySolution(ODEFunction function, Vector2D initialPoint, IDiscretizer discretizer)
+        public static ArrayFunction MakeArraySolution(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer)
         {
             return new HeunSolver(function, initialPoint, discretizer, DefaultODEParameters.DefaultMaxIterations).ArraySolve;
         }
 
         //no discretizer
-        public static ArrayFunction MakeArraySolution(ODEFunction function, Vector2D initialPoint, SingleStepIteration auxiliaryIterator, int maxIterations)
+        public static ArrayFunction MakeArraySolution(ODEFunction function, Point2D initialPoint, SingleStepIteration auxiliaryIterator, int maxIterations)
         {
             return new HeunSolver(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, maxIterations).ArraySolve;
         }
 
         //no discretizer, no max iterations
-        public static ArrayFunction MakeArraySolution(ODEFunction function, Vector2D initialPoint)
+        public static ArrayFunction MakeArraySolution(ODEFunction function, Point2D initialPoint)
         {
             return new HeunSolver(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations).ArraySolve;
         }
@@ -171,7 +171,7 @@ namespace Beryl.ODE
         {
         }
 
-        private HeunSolver(ODEFunction function, Vector2D initialPoint, IDiscretizer discretizer, int maxIterations) : base(function, initialPoint, discretizer, maxIterations)
+        private HeunSolver(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, int maxIterations) : base(function, initialPoint, discretizer, maxIterations)
         {
         }
 
@@ -179,23 +179,23 @@ namespace Beryl.ODE
         {
         }
 
-        private HeunSolver(ODEFunction function, Vector2D initialPoint, IDiscretizer discretizer, IODEOptimizer optimizer, int maxIterations) : base(function, initialPoint, discretizer, optimizer, maxIterations)
+        private HeunSolver(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, IODEOptimizer optimizer, int maxIterations) : base(function, initialPoint, discretizer, optimizer, maxIterations)
         {
         }
 
         //calculates an Heun iteration
-        protected override Vector2D Iteration(StepPoint point)
+        protected override Point2D Iteration(StepPoint point)
         {
             double K1 = function(point.Coordinates.x,point.Coordinates.y);
             double K2 = function(point.Coordinates.x + point.Step, point.Coordinates.y + point.Step * K1);
-            return new Vector2D(point.Coordinates.x + point.Step, point.Coordinates.y + point.Step / 2 * (K1 + K2)); ;
+            return new Point2D(point.Coordinates.x + point.Step, point.Coordinates.y + point.Step / 2 * (K1 + K2)); ;
         }
 
-        public static Vector2D Iteration(ODEFunction function, StepPoint point)
+        public static Point2D Iteration(ODEFunction function, StepPoint point)
         {
             double K1 = function(point.Coordinates.x, point.Coordinates.y);
             double K2 = function(point.Coordinates.x + point.Step, point.Coordinates.y + point.Step * K1);
-            return new Vector2D(point.Coordinates.x + point.Step, point.Coordinates.y + point.Step / 2 * (K1 + K2)); ;
+            return new Point2D(point.Coordinates.x + point.Step, point.Coordinates.y + point.Step / 2 * (K1 + K2)); ;
         }
     }
 }

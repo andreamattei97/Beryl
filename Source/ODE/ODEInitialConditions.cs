@@ -5,11 +5,11 @@ namespace Beryl.ODE
 {
     public struct ODEInitialConditions
     {
-        public readonly Vector2D StartingPoint;
-        public readonly Vector2D[] LeftPoints;
-        public readonly Vector2D[] RightPoints;
+        public readonly Point2D StartingPoint;
+        public readonly Point2D[] LeftPoints;
+        public readonly Point2D[] RightPoints;
 
-        public ODEInitialConditions(Vector2D startingPoint,Vector2D[] leftPoints,Vector2D[] rightPoints)
+        public ODEInitialConditions(Point2D startingPoint,Point2D[] leftPoints,Point2D[] rightPoints)
         {
             if(!startingPoint.IsFinite())
                 throw new ArgumentOutOfRangeException("startingPoint", "Non-finite initial startingPoint");
@@ -17,7 +17,7 @@ namespace Beryl.ODE
 
             if (leftPoints == null)
                 throw new ArgumentNullException("leftPoints");
-            foreach (Vector2D point in leftPoints)
+            foreach (Point2D point in leftPoints)
             {
                 if (!point.IsFinite())
                     throw new ArgumentOutOfRangeException("leftPoints", "Non-finite point in leftPoints");
@@ -26,7 +26,7 @@ namespace Beryl.ODE
 
             if (rightPoints == null)
                 throw new ArgumentNullException("rightPoints");
-            foreach (Vector2D point in rightPoints)
+            foreach (Point2D point in rightPoints)
             {
                 if (!point.IsFinite())
                     throw new ArgumentOutOfRangeException("rightPoints", "Non-finite point in rightPoints");

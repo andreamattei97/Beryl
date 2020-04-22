@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace Beryl.Utilities.Structures
 {
-    public struct Vector3D : IXmlSerializable, ISerializable
+    public struct Point3D : IXmlSerializable, ISerializable
     {
         private double _x;
         public double x
@@ -30,45 +30,45 @@ namespace Beryl.Utilities.Structures
         }
 
         //returns the addition of the 2 given vectors
-        public static Vector3D operator +(Vector3D vector1, Vector3D vector2)
+        public static Point3D operator +(Point3D vector1, Point3D vector2)
         {
-            return new Vector3D(vector1.x + vector2.x, vector1.y + vector2.y, vector1.z + vector2.z);
+            return new Point3D(vector1.x + vector2.x, vector1.y + vector2.y, vector1.z + vector2.z);
         }
 
         //returns the subtraction of the 2 given vectors
-        public static Vector3D operator -(Vector3D vector1, Vector3D vector2)
+        public static Point3D operator -(Point3D vector1, Point3D vector2)
         {
-            return new Vector3D(vector1.x - vector2.x, vector1.y - vector2.y, vector1.z - vector2.z);
+            return new Point3D(vector1.x - vector2.x, vector1.y - vector2.y, vector1.z - vector2.z);
         }
 
         //returns the dot product of the 2 vectors
-        public static double operator *(Vector3D vector1, Vector3D vector2)
+        public static double operator *(Point3D vector1, Point3D vector2)
         {
             return vector1.x * vector2.x + vector1.y * vector2.y + vector1.z * vector2.z;
         }
 
         //returns the vector multiplied by the scalar k
-        public static Vector3D operator *(Vector3D vector, double k)
+        public static Point3D operator *(Point3D vector, double k)
         {
-            return new Vector3D(vector.x * k, vector.y * k, vector.z);
+            return new Point3D(vector.x * k, vector.y * k, vector.z);
         }
 
         //returns the vector multiplied by the scalar 1/k
-        public static Vector3D operator /(Vector3D vector, double k)
+        public static Point3D operator /(Point3D vector, double k)
         {
-            return new Vector3D(vector.x / k, vector.y / k, vector.z / k);
+            return new Point3D(vector.x / k, vector.y / k, vector.z / k);
         }
 
-        //converts the vector into a 2d vector (Vector2d) as (x,y)
-        public static explicit operator Vector2D(Vector3D vector)
+        //converts the vector into a 2d vector (Point2D) as (x,y)
+        public static explicit operator Point2D(Point3D vector)
         {
-            return new Vector2D(vector.x, vector.y);
+            return new Point2D(vector.x, vector.y);
         }
 
         //returns the cross product of the 2 vectors
-        public static Vector3D CrossProduct(Vector3D vector1, Vector3D vector2)
+        public static Point3D CrossProduct(Point3D vector1, Point3D vector2)
         {
-            return new Vector3D(vector1.y * vector2.z - vector1.z * vector2.y, vector1.z * vector2.x - vector1.x * vector2.z, vector1.x * vector2.y - vector1.y * vector2.x);
+            return new Point3D(vector1.y * vector2.z - vector1.z * vector2.y, vector1.z * vector2.x - vector1.x * vector2.z, vector1.x * vector2.y - vector1.y * vector2.x);
         }
 
         #region binary serialization
@@ -83,7 +83,7 @@ namespace Beryl.Utilities.Structures
         }
 
         //special constructor used during the deserialization
-        public Vector3D(SerializationInfo info, StreamingContext context)
+        public Point3D(SerializationInfo info, StreamingContext context)
         {
             _x = info.GetDouble("x");
             _y = info.GetDouble("y");
@@ -120,7 +120,7 @@ namespace Beryl.Utilities.Structures
         #endregion
 
         //sets base value
-        public Vector3D(double x, double y, double z)
+        public Point3D(double x, double y, double z)
         {
             _x = x;
             _y = y;

@@ -40,8 +40,8 @@ namespace Beryl.ODE
 
         protected readonly int order;
 
-        private Vector2D _startingCoordinates;
-        protected Vector2D StartingCoordinates { get { return _startingCoordinates; } }
+        private Point2D _startingCoordinates;
+        protected Point2D StartingCoordinates { get { return _startingCoordinates; } }
         private readonly StepPoint[] _leftInitialPoints;
         protected StepPoint[] LeftInitialPoints
         {
@@ -133,7 +133,7 @@ namespace Beryl.ODE
 
             while (i >= 0)
             {
-                Vector2D newPoint = auxiliaryIterator(function,_leftInitialPoints[i + 1]);
+                Point2D newPoint = auxiliaryIterator(function,_leftInitialPoints[i + 1]);
                 _leftInitialPoints[i] = new StepPoint(newPoint, discretizer.CalculateLeftStep(newPoint));
                 i--;
             }
@@ -163,7 +163,7 @@ namespace Beryl.ODE
 
             while (i >= 0)
             {
-                Vector2D newPoint = auxiliaryIterator(function, _rightInitialPoints[i + 1]);
+                Point2D newPoint = auxiliaryIterator(function, _rightInitialPoints[i + 1]);
                 _rightInitialPoints[i] = new StepPoint(newPoint, discretizer.CalculateRightStep(newPoint));
                 i--;
             }
@@ -195,7 +195,7 @@ namespace Beryl.ODE
             LinkedList<StepPoint> previousPoints = new LinkedList<StepPoint>(_rightInitialPoints);
             int i = 0;
             int currentNodeIndex = 0;
-            Vector2D currentPoint = previousPoints.First.Value.Coordinates;
+            Point2D currentPoint = previousPoints.First.Value.Coordinates;
 
 
             for (; i < nodeDistribution[0]; i++)
@@ -233,7 +233,7 @@ namespace Beryl.ODE
             LinkedList<StepPoint> previousPoints = new LinkedList<StepPoint>(_leftInitialPoints);
             int i = 0;
             int currentNodeIndex = 0;
-            Vector2D currentPoint = previousPoints.First.Value.Coordinates;
+            Point2D currentPoint = previousPoints.First.Value.Coordinates;
             
             
             for(;i<nodeDistribution[0];i++)
@@ -446,7 +446,7 @@ namespace Beryl.ODE
 
         private StepPoint IterateRight(LinkedList<StepPoint> previousPoints)
         {
-            Vector2D currentPoint = Iteration(previousPoints);
+            Point2D currentPoint = Iteration(previousPoints);
             StepPoint newPoint = new StepPoint(currentPoint, discretizer.CalculateRightStep(currentPoint));
             previousPoints.RemoveLast();
             previousPoints.AddFirst(newPoint);
@@ -455,14 +455,14 @@ namespace Beryl.ODE
 
         private StepPoint IterateLeft(LinkedList<StepPoint> previousPoints)
         {
-            Vector2D currentPoint = Iteration(previousPoints);
+            Point2D currentPoint = Iteration(previousPoints);
             StepPoint newPoint = new StepPoint(currentPoint, discretizer.CalculateLeftStep(currentPoint));
             previousPoints.RemoveLast();
             previousPoints.AddFirst(newPoint);
             return newPoint;
         }
 
-        protected abstract Vector2D Iteration(LinkedList<StepPoint> points);
+        protected abstract Point2D Iteration(LinkedList<StepPoint> points);
         
     }
 }
