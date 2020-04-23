@@ -166,6 +166,62 @@ namespace Beryl.ODE
 
         #endregion
 
+        #region MapSolver-ODEInitialConditions
+
+        //all parameters
+        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer, int maxIterations) where T : IMap<T>
+        {
+            return new RungeKuttaSolver(function, initialConditions, discretizer, maxIterations).MapSolve;
+        }
+
+        //no max iterations
+        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer) where T : IMap<T>
+        {
+            return new RungeKuttaSolver(function, initialConditions, discretizer, DefaultODEParameters.DefaultMaxIterations).MapSolve;
+        }
+
+        //no discretizer
+        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions, SingleStepIteration auxiliaryIterator, int maxIterations) where T : IMap<T>
+        {
+            return new RungeKuttaSolver(function, initialConditions, DefaultODEParameters.DefaultDiscretizer, maxIterations).MapSolve;
+        }
+
+        //no discretizer, no max iterations
+        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, ODEInitialConditions initialConditions) where T : IMap<T>
+        {
+            return new RungeKuttaSolver(function, initialConditions, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations).MapSolve;
+        }
+
+        #endregion
+
+        #region MapSolver-InitialPoint
+
+        //all parameters
+        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, int maxIterations) where T : IMap<T>
+        {
+            return new RungeKuttaSolver(function, initialPoint, discretizer, maxIterations).MapSolve;
+        }
+
+        //no max iterations
+        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, Point2D initialPoint, IDiscretizer discretizer) where T : IMap<T>
+        {
+            return new RungeKuttaSolver(function, initialPoint, discretizer, DefaultODEParameters.DefaultMaxIterations).MapSolve;
+        }
+
+        //no discretizer
+        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, Point2D initialPoint, SingleStepIteration auxiliaryIterator, int maxIterations) where T : IMap<T>
+        {
+            return new RungeKuttaSolver(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, maxIterations).MapSolve;
+        }
+
+        //no discretizer, no max iterations
+        public static MapFunction<T> MakeMapSolution<T>(ODEFunction function, Point2D initialPoint) where T : IMap<T>
+        {
+            return new RungeKuttaSolver(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations).MapSolve;
+        }
+
+        #endregion
+
         private RungeKuttaSolver(ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer, int maxIterations) : base(function, initialConditions, discretizer, maxIterations)
         {
         }

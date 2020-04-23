@@ -155,6 +155,56 @@ namespace Beryl.ODE
             return EulerSolver.MakeArraySolution(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations);
         }
 
+        //MapSolver
+
+        //all parameters - ODEInitialConditions initial condition
+        public static MapFunction<T> EulerMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer, int maxIterations) where T : IMap<T>
+        {
+            return EulerSolver.MakeMapSolution<T>(function, initialConditions, discretizer, maxIterations);
+        }
+
+        //all parameters - Vector2D initial condition
+        public static MapFunction<T> EulerMapSolve<T>(this ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, int maxIterations) where T : IMap<T>
+        {
+            return EulerSolver.MakeMapSolution<T>(function, initialPoint, discretizer, maxIterations);
+        }
+
+        //no max iterations - ODEInitialConditions initial condition
+        public static MapFunction<T> EulerMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer) where T : IMap<T>
+        {
+            return EulerSolver.MakeMapSolution<T>(function, initialConditions, discretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
+        //no max iterations - Vector2D initial condition
+        public static MapFunction<T> EulerMapSolve<T>(this ODEFunction function, Point2D initialPoint, IDiscretizer discretizer) where T : IMap<T>
+        {
+            return EulerSolver.MakeMapSolution<T>(function, initialPoint, discretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
+        //no discretizer - ODEInitialConditions initial condition
+        public static MapFunction<T> EulerMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions, int maxIterations) where T : IMap<T>
+        {
+            return EulerSolver.MakeMapSolution<T>(function, initialConditions, DefaultODEParameters.DefaultDiscretizer, maxIterations);
+        }
+
+        //no discretizer - Vector2D initial condition
+        public static MapFunction<T> EulerMapSolve<T>(this ODEFunction function, Point2D initialPoint, int maxIterations) where T : IMap<T>
+        {
+            return EulerSolver.MakeMapSolution<T>(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, maxIterations);
+        }
+
+        //no discretizer, no max iterations - ODEInitialConditions initial condition
+        public static MapFunction<T> EulerMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions) where T : IMap<T>
+        {
+            return EulerSolver.MakeMapSolution<T>(function, initialConditions, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
+        //no discretizer, no max iterations - Vector2D initial condition
+        public static MapFunction<T> EulerMapSolve<T>(this ODEFunction function, Point2D initialPoint) where T : IMap<T>
+        {
+            return EulerSolver.MakeMapSolution<T>(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
         #endregion
 
         #region HeunSolver
@@ -307,6 +357,56 @@ namespace Beryl.ODE
             return HeunSolver.MakeArraySolution(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations);
         }
 
+        //MapSolver
+
+        //all parameters - ODEInitialConditions initial condition
+        public static MapFunction<T> HeunMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer, int maxIterations) where T : IMap<T>
+        {
+            return HeunSolver.MakeMapSolution<T>(function, initialConditions, discretizer, maxIterations);
+        }
+
+        //all parameters - Vector2D initial condition
+        public static MapFunction<T> HeunMapSolve<T>(this ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, int maxIterations) where T : IMap<T>
+        {
+            return HeunSolver.MakeMapSolution<T>(function, initialPoint, discretizer, maxIterations);
+        }
+
+        //no max iterations - ODEInitialConditions initial condition
+        public static MapFunction<T> HeunMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer) where T : IMap<T>
+        {
+            return HeunSolver.MakeMapSolution<T>(function, initialConditions, discretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
+        //no max iterations - Vector2D initial condition
+        public static MapFunction<T> HeunMapSolve<T>(this ODEFunction function, Point2D initialPoint, IDiscretizer discretizer) where T : IMap<T>
+        {
+            return HeunSolver.MakeMapSolution<T>(function, initialPoint, discretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
+        //no discretizer - ODEInitialConditions initial condition
+        public static MapFunction<T> HeunMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions, int maxIterations) where T : IMap<T>
+        {
+            return HeunSolver.MakeMapSolution<T>(function, initialConditions, DefaultODEParameters.DefaultDiscretizer, maxIterations);
+        }
+
+        //no discretizer - Vector2D initial condition
+        public static MapFunction<T> HeunMapSolve<T>(this ODEFunction function, Point2D initialPoint, int maxIterations) where T : IMap<T>
+        {
+            return HeunSolver.MakeMapSolution<T>(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, maxIterations);
+        }
+
+        //no discretizer, no max iterations - ODEInitialConditions initial condition
+        public static MapFunction<T> HeunMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions) where T : IMap<T>
+        {
+            return HeunSolver.MakeMapSolution<T>(function, initialConditions, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
+        //no discretizer, no max iterations - Vector2D initial condition
+        public static MapFunction<T> HeunMapSolve<T>(this ODEFunction function, Point2D initialPoint) where T : IMap<T>
+        {
+            return HeunSolver.MakeMapSolution<T>(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
         #endregion
 
         #region RungeKuttaSolver
@@ -457,6 +557,56 @@ namespace Beryl.ODE
         public static ArrayFunction RungeKuttaArraySolve(this ODEFunction function, Point2D initialPoint)
         {
             return RungeKuttaSolver.MakeArraySolution(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
+        //MapSolver
+
+        //all parameters - ODEInitialConditions initial condition
+        public static MapFunction<T> RungeKuttaMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer, int maxIterations) where T : IMap<T>
+        {
+            return RungeKuttaSolver.MakeMapSolution<T>(function, initialConditions, discretizer, maxIterations);
+        }
+
+        //all parameters - Vector2D initial condition
+        public static MapFunction<T> RungeKuttaMapSolve<T>(this ODEFunction function, Point2D initialPoint, IDiscretizer discretizer, int maxIterations) where T : IMap<T>
+        {
+            return RungeKuttaSolver.MakeMapSolution<T>(function, initialPoint, discretizer, maxIterations);
+        }
+
+        //no max iterations - ODEInitialConditions initial condition
+        public static MapFunction<T> RungeKuttaMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions, IDiscretizer discretizer) where T : IMap<T>
+        {
+            return RungeKuttaSolver.MakeMapSolution<T>(function, initialConditions, discretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
+        //no max iterations - Vector2D initial condition
+        public static MapFunction<T> RungeKuttaMapSolve<T>(this ODEFunction function, Point2D initialPoint, IDiscretizer discretizer) where T : IMap<T>
+        {
+            return RungeKuttaSolver.MakeMapSolution<T>(function, initialPoint, discretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
+        //no discretizer - ODEInitialConditions initial condition
+        public static MapFunction<T> RungeKuttaMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions, int maxIterations) where T : IMap<T>
+        {
+            return RungeKuttaSolver.MakeMapSolution<T>(function, initialConditions, DefaultODEParameters.DefaultDiscretizer, maxIterations);
+        }
+
+        //no discretizer - Vector2D initial condition
+        public static MapFunction<T> RungeKuttaMapSolve<T>(this ODEFunction function, Point2D initialPoint, int maxIterations) where T : IMap<T>
+        {
+            return RungeKuttaSolver.MakeMapSolution<T>(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, maxIterations);
+        }
+
+        //no discretizer, no max iterations - ODEInitialConditions initial condition
+        public static MapFunction<T> RungeKuttaMapSolve<T>(this ODEFunction function, ODEInitialConditions initialConditions) where T : IMap<T>
+        {
+            return RungeKuttaSolver.MakeMapSolution<T>(function, initialConditions, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations);
+        }
+
+        //no discretizer, no max iterations - Vector2D initial condition
+        public static MapFunction<T> RungeKuttaMapSolve<T>(this ODEFunction function, Point2D initialPoint) where T : IMap<T>
+        {
+            return RungeKuttaSolver.MakeMapSolution<T>(function, initialPoint, DefaultODEParameters.DefaultDiscretizer, DefaultODEParameters.DefaultMaxIterations);
         }
 
         #endregion
